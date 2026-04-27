@@ -28,49 +28,39 @@ public class LevelData
     public List<GridPos> iceBoxes;
 }
 
-public class LevelGenerator : MonoBehaviour
+public class LevelGenerator : Ply_Singleton<LevelGenerator>
 {
     [Header("Data Input")]
-    public TextAsset levelJsonFile;
     public int levelIdToLoad = 1; // Nếu muốn load theo id thay vì gán file trực tiếp, điền id vào đây và gọi GenerateMapByLevel(levelIdToLoad)
     [ReadOnly] public string currentSolution; // Lưu solution để check sau này
 
     [Header("Environment Setup (2x2x2)")]
     public float gridSize = 2f; // Kích thước cube
-    public GameObject baseCubePrefab; // Kéo prefab cube mặc định vào đây
-
-    [Tooltip("0: Wall Mesh, 1: Ground Mesh")]
-    public List<Mesh> envMeshes; // Thay đổi hình dạng lưới
-
-    [Tooltip("Màu sắc tương ứng để dễ nhìn: 0 = Wall, 1 = Ground")]
-    public List<Material> envMaterials; // Khuyên dùng thêm material để dễ phân biệt màu
-
-    [Header("Prefabs")]
-    public GameObject goalPrefab;     // Cube 2x2x2 cho điểm đích
-    public GameObject playerPrefab;   // Prefab người chơi
-    public GameObject normalBoxPrefab;// Prefab thùng gỗ
-    public GameObject iceBoxPrefab;   // Prefab thùng băng
 
     [Header("ObjectStackHolder")]
 
-    private Stack<Ground> groundStack = new Stack<Ground>(); // Stack để quản lý các Ground đã spawn, giúp dễ dàng đẩy lên khi spawn Box/Player và kéo xuống khi despawn
-    private Player spawnedPlayerComp; // Tham chiếu đến player đã spawn để dễ dàng quản lý
-    private Stack<Box> boxStack = new Stack<Box>(); // Stack để quản lý các Box đã spawn, giúp dễ dàng đẩy lên khi spawn Box mới và kéo xuống khi despawn
+    public Stack<Ground> groundStack = new Stack<Ground>(); // Stack để quản lý các Ground đã spawn, giúp dễ dàng đẩy lên khi spawn Box/Player và kéo xuống khi despawn
+    public Player spawnedPlayerComp; // Tham chiếu đến player đã spawn để dễ dàng quản lý
+    public Stack<Box> boxStack = new Stack<Box>(); // Stack để quản lý các Box đã spawn, giúp dễ dàng đẩy lên khi spawn Box mới và kéo xuống khi despawn
     private Transform _mapContainer;
     public Transform levelContainer;
 
+    Vector3 playerSpawnOffset = new Vector3(0, -1, 0);
     [ContextMenu("Generate Level")]
     public void GenerateMap()
     {
         GenerateMapByLevel(levelIdToLoad);
     }
 
-    /// <summary>
-    /// Generate a level by numeric id. It will try Resources first, then Assets folder fallback (Editor/runtime).
-    /// Files are expected as "level_0001.json" in Assets/_GamePlay_/Level or Resources/_GamePlay_/Level
-    /// </summary>
     public void GenerateMapByLevel(int levelId)
     {
+        if (levelIdToLoad != levelId)
+        {
+            if (TutorialController.Ins != null) 
+                TutorialController.Ins.ResetHintLimit();
+        }
+
+        levelIdToLoad = levelId;
         string resourcePath = $"_GamePlay_/Level/level_{levelId:0000}"; // Resources path without extension
         string json = null;
 
@@ -101,6 +91,7 @@ public class LevelGenerator : MonoBehaviour
     {
 
         DespawnMap();
+        CommandManager.Ins.Clear();
 
         // 1. Parse JSON dùng Newtonsoft
         LevelData data = JsonConvert.DeserializeObject<LevelData>(json);
@@ -135,7 +126,7 @@ public class LevelGenerator : MonoBehaviour
 
                     // Lớp trên: player
                     Vector3 layer1Pos = pos + Vector3.up * gridSize;
-                    spawnedPlayerComp = Ply_Pool.Ins.Spawn<Player>(PoolType.Player, layer1Pos, Quaternion.identity);
+                    spawnedPlayerComp = Ply_Pool.Ins.Spawn<Player>(PoolType.Player, layer1Pos+playerSpawnOffset, Quaternion.identity);
                     spawnedPlayerComp.transform.SetParent(levelContainer); // Gắn player ra ngoài _mapContainer để dễ quản lý riêng
                 }
                 else
@@ -162,9 +153,14 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
+        // Invoke(nameof(StartTutorialFromCurrentSolution), 1f); // Đợi một frame để đảm bảo mọi thứ đã khởi tạo xong rồi mới bắt đầu tutorial
+        TutorialController.Ins.StartTutorialFromCurrentSolution();
         Debug.Log($"Sinh map thành công! Solution: {currentSolution}");
     }
-
+    private void StartTutorialFromCurrentSolution()
+    {
+        TutorialController.Ins.StartTutorialFromCurrentSolution();
+    }
     private void SpawnCell(int value, Vector3 position)
     {
         // Tính toạ độ Y cho lớp phía trên (Cao lên 1 ô / gridSize)
@@ -203,7 +199,9 @@ public class LevelGenerator : MonoBehaviour
             box.transform.SetParent(levelContainer);
             boxStack.Push(box);
             box.SetBoxType(BoxType.Normal);
-   
+            Physics.SyncTransforms();
+            box.gravity.StartFalling();
+            box.CheckOnGoal();
         }
         // Sinh Player (nằm trên sàn hoặc nằm trên đích)
         else if (value == 5 || value == 6)
@@ -217,6 +215,9 @@ public class LevelGenerator : MonoBehaviour
             box.transform.SetParent(levelContainer);
             boxStack.Push(box);
             box.SetBoxType(BoxType.Ice);
+            Physics.SyncTransforms();
+            box.gravity.StartFalling();
+            box.CheckOnGoal();
         }
     }
 

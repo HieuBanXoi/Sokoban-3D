@@ -123,15 +123,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   playerTransform: {fileID: 8403564457431778246}
   animator: {fileID: 5479426924089295322}
-  moveSpeed: 8
-  defaultMoveSpeed: 8
-  pushMoveSpeed: 4
-  playerCheckDistance: 0.8
-  boxCheckDistance: 2
-  iceSlideSpeed: 6
-  isObstacleBefore: 0
-  isPushing: 0
-  currentlyPushedBox: {fileID: 0}
+  gridSize: 2
+  moveDuration: 0.2
+  isMoving: 0
 --- !u!1 &7348404900332141555
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,7 +137,6 @@ GameObject:
   - component: {fileID: 8403564457431778246}
   - component: {fileID: 7234100289906069312}
   - component: {fileID: 5712971364828008863}
-  - component: {fileID: 8780252853878147752}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -206,23 +199,6 @@ MonoBehaviour:
   tf: {fileID: 8403564457431778246}
   graphic: {fileID: 5573191702199156342}
   movement: {fileID: 9213724621817148578}
---- !u!114 &8780252853878147752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7348404900332141555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ec4eed3349d274dbcb9a1032119676, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FakeGravity
-  gravity: -9.81
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  groundCheckDistance: 0.1
 --- !u!1001 &6663904536692998801
 PrefabInstance:
   m_ObjectHideFlags: 0

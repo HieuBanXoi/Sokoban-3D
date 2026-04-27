@@ -14,6 +14,9 @@ public class LevelLoaderUI : MonoBehaviour
     [Tooltip("Button that triggers generation. If left empty you can call OnGeneratePressed() from another UI.")]
     public Button generateButton;
 
+    [Tooltip("Optional: Undo button to revert last move")]
+    public Button undoButton;
+
     // cached value if you prefer connecting TMP_InputField.onValueChanged -> SetLevelId
     private string cachedLevelId = "";
 
@@ -22,8 +25,16 @@ public class LevelLoaderUI : MonoBehaviour
         if (generateButton != null)
             generateButton.onClick.AddListener(OnGeneratePressed);
 
+        if (undoButton != null)
+            undoButton.onClick.AddListener(OnUndoPressed);
+
         if (levelIdInput != null)
             cachedLevelId = levelIdInput.text;
+    }
+
+    public void OnUndoPressed()
+    {
+        CommandManager.Ins.Undo();
     }
 
     public void SetLevelId(string value)
@@ -58,6 +69,7 @@ public class LevelLoaderUI : MonoBehaviour
 
         // GenerateMapByLevel already clears the old map; ClearMap call is safe but redundant.
         levelGenerator.ClearMap();
+        levelGenerator.levelIdToLoad = id; // Set the levelIdToLoad before generating, so that TutorialController can read it
         levelGenerator.GenerateMapByLevel(id);
     }
 
@@ -65,5 +77,7 @@ public class LevelLoaderUI : MonoBehaviour
     {
         if (generateButton != null)
             generateButton.onClick.RemoveListener(OnGeneratePressed);
+        if (undoButton != null)
+            undoButton.onClick.RemoveListener(OnUndoPressed);
     }
 }

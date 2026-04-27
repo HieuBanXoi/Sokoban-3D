@@ -70,9 +70,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Box
   tf: {fileID: 2340181449572841681}
   graphic: {fileID: 5437618383229813020}
-  rb: {fileID: 0}
+  gravity: {fileID: 9094630227829801266}
   boxType: 0
   isOnGoal: 0
+  slideSpeed: 6
 --- !u!114 &9094630227829801266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,11 +86,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ec4eed3349d274dbcb9a1032119676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FakeGravity
-  gravity: -9.81
+  fallDuration: 0.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  groundCheckDistance: 0.1
+  fallEase: 5
+  useBounce: 1
 --- !u!1 &7542469803719216764
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,36 +11,23 @@ public class InputManager : Ply_Singleton<InputManager>
 
     private void Update()
     {
-        if (!GameManager.Ins.isPlaying)
-        {
-            return;
-        }
+        if (!GameManager.Ins.isPlaying) return;
         if (player == null || player.movement == null) return;
 
-        // 1. Nhận sự kiện di chuyển (WASD hoặc Phím mũi tên)
-        // GetAxisRaw trả về các giá trị -1, 0, 1 giúp nhân vật dừng lại ngay lập tức khi nhả phím
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        // Prevent diagonal movement: prioritize larger axis
-        if (Mathf.Abs(horizontal) > 0f && Mathf.Abs(vertical) > 0f)
-        {
-            if (Mathf.Abs(horizontal) > Mathf.Abs(vertical))
-                vertical = 0f;
-            else
-                horizontal = 0f;
-        }
-
-        Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
-
-        // Luôn truyền Vector di chuyển xuống, kể cả khi đứng yên (Vector3.zero)
-        player.movement.Move(moveDirection);
-
-        // Handle push input
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            player.movement.HandlePushInput();
-        }
-
+        // Xử lý Input trên máy tính (Bàn phím)
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            MoveUp();
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            MoveDown();
+        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            MoveLeft();
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            MoveRight();
     }
+
+    // CÁC HÀM NÀY DÙNG ĐỂ GẮN VÀO BUTTON TRÊN ĐIỆN THOẠI (UI)
+    public void MoveUp() => player.movement.AttemptMove(Vector3.forward);
+    public void MoveDown() => player.movement.AttemptMove(Vector3.back);
+    public void MoveLeft() => player.movement.AttemptMove(Vector3.left);
+    public void MoveRight() => player.movement.AttemptMove(Vector3.right);
 }
