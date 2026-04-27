@@ -48,4 +48,7 @@ public class MapType
     public Mesh goalMesh;
     public Mesh wallMesh;
     public Mesh groundMesh;
+
+    public Material normalMaterial;
+    public Material iceMaterial;
 }

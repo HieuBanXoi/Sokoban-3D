@@ -6,58 +6,19 @@ public class Box : Ply_GameUnit
 {
     [Header("Reference")]
     public BoxGraphicController graphic;
+    public Rigidbody rb;
 
     [Header("Type")]
     public BoxType boxType;
     public bool isOnGoal = false;
+    public float slideSpeed = 6f;
 
-    private Rigidbody rb;
-
-    private void Awake()
+    public void Despawn()
     {
-        rb = GetComponent<Rigidbody>();
+        Ply_Pool.Ins.Despawn(PoolType.Box, this);
     }
-
-    private void OnEnable()
-    {
-        if (rb == null) rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            // allow falling first, then freeze by kinematic so boxes don't jitter
-            rb.isKinematic = false;
-            StartCoroutine(EnableKinematicWhenSettled());
-        }
-    }
-
-    private IEnumerator EnableKinematicWhenSettled()
-    {
-        float timer = 0f;
-        // wait up to 1s or until rigidbody sleeps
-        while (timer < 1f)
-        {
-            if (rb == null) break;
-            if (rb.IsSleeping()) break;
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-        if (rb != null)
-            rb.isKinematic = true;
-    }
-
-    public void SetKinematic(bool value)
-    {
-        if (rb == null) rb = GetComponent<Rigidbody>();
-        if (rb != null) rb.isKinematic = value;
-    }
-
-    /// <summary>
-    /// Raycast down to ground layer and snap x,z to hit point using DOTween.
-    /// Keeps current y to avoid pushing box through ground; after tween sets kinematic true.
-    /// </summary>
     public void SnapToGround(LayerMask groundLayer)
     {
-        Debug.Log($"SnapToGround called. groundLayer={groundLayer.value}, boxPos={transform.position}");
 
         Vector3 origin = transform.position + Vector3.up * 1f;
         float maxDist = 6f;
@@ -93,16 +54,8 @@ public class Box : Ply_GameUnit
         }
     }
 
-    public void Despawn()
-    {
-        Ply_Pool.Ins.Despawn(PoolType.Box, this);
-    }
-
-    /// <summary>
-    /// For Ice boxes: cast a ray in direction until a wall is found, then move the box to the cell before that wall.
-    /// Duration scales with distance and movement uses DOTween; after move it snaps to ground.
-    /// </summary>
-    public void IceSlide(Vector3 dir, int obstacleMask, LayerMask groundLayer, float cellSize, float slideSpeed)
+    
+    public void IceSlide(Vector3 dir, int obstacleMask, LayerMask groundLayer)
     {
         if (dir.sqrMagnitude < 0.001f) return;
         Vector3 origin = transform.position + Vector3.up * 0.5f;
@@ -131,14 +84,28 @@ public class Box : Ply_GameUnit
             return;
         }
 
-        // ensure kinematic while tweening to avoid physics interference
-        SetKinematic(true);
 
         float duration = Mathf.Max(0.05f, dist / Mathf.Max(0.0001f, slideSpeed));
         transform.DOMove(target, duration).OnComplete(() =>
         {
             SnapToGround(groundLayer);
         });
+    }
+    public void SetBoxType(BoxType type)
+    {
+        boxType = type;
+        if (graphic != null)
+        {
+            switch (boxType)
+            {
+                case BoxType.Normal:
+                    graphic.SetMaterial(MeshManager.Ins.currentMapMesh.normalMaterial);
+                    break;
+                case BoxType.Ice:
+                    graphic.SetMaterial(MeshManager.Ins.currentMapMesh.iceMaterial);
+                    break;
+            }
+        }
     }
 }
 

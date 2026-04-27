@@ -202,7 +202,7 @@ public class LevelGenerator : MonoBehaviour
             Box box = Ply_Pool.Ins.Spawn<Box>(PoolType.Box, layer1Pos, Quaternion.identity);
             box.transform.SetParent(levelContainer);
             boxStack.Push(box);
-            box.boxType = BoxType.Normal;
+            box.SetBoxType(BoxType.Normal);
    
         }
         // Sinh Player (nằm trên sàn hoặc nằm trên đích)
@@ -216,7 +216,7 @@ public class LevelGenerator : MonoBehaviour
             Box box = Ply_Pool.Ins.Spawn<Box>(PoolType.Box, layer1Pos, Quaternion.identity);
             box.transform.SetParent(levelContainer);
             boxStack.Push(box);
-            box.boxType = BoxType.Ice;
+            box.SetBoxType(BoxType.Ice);
         }
     }
 
