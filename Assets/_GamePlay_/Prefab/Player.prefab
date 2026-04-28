@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 198895714db30bf408fa0c8072bbe31e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerGraphicController
+  playerMovement: {fileID: 9213724621817148578}
 --- !u!1 &3533672241058131349
 GameObject:
   m_ObjectHideFlags: 0

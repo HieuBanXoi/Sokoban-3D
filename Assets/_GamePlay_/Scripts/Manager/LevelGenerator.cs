@@ -46,8 +46,28 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
     public Transform levelContainer;
 
     Vector3 playerSpawnOffset = new Vector3(0, -1, 0);
-    [ContextMenu("Generate Level")]
-    public void GenerateMap()
+
+    private void Start()
+    {
+        SkinManager.Ins.OnInit(); // Đảm bảo SkinManager được khởi tạo trước khi sinh map để áp skin đúng ngay từ đầuks
+        // TỰ ĐỘNG LOAD MAP KHI VÀO MAIN SCENE
+        if (DataSyncManager.Instance != null && DataSyncManager.Instance.gameDataSO != null)
+        {
+            // Lấy level đang chọn từ SO
+            int levelToPlay = DataSyncManager.Instance.gameDataSO.data.currentPlayingLevel;
+            Debug.Log($"[LevelGenerator] Đang tự động load Level {levelToPlay} từ DataSync...");
+            
+            // Gọi hàm sinh map có sẵn của bạn
+            GenerateMapByLevel(levelToPlay); 
+        }
+        else
+        {
+            Debug.LogWarning("[LevelGenerator] Chạy test trực tiếp ở MainScene, load levelIdToLoad mặc định.");
+            GenerateMapByLevel(levelIdToLoad);
+        }
+    }
+
+    public void ReloadCurrentLevel()
     {
         GenerateMapByLevel(levelIdToLoad);
     }
@@ -127,6 +147,7 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
                     // Lớp trên: player
                     Vector3 layer1Pos = pos + Vector3.up * gridSize;
                     spawnedPlayerComp = Ply_Pool.Ins.Spawn<Player>(PoolType.Player, layer1Pos+playerSpawnOffset, Quaternion.identity);
+                    spawnedPlayerComp.graphic.ApplySkin(); // Áp skin sau khi spawn để tránh lỗi mất mesh
                     spawnedPlayerComp.transform.SetParent(levelContainer); // Gắn player ra ngoài _mapContainer để dễ quản lý riêng
                 }
                 else

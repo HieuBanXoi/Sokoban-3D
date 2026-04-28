@@ -130,10 +130,10 @@ public class Box : Ply_GameUnit
             switch (boxType)
             {
                 case BoxType.Normal:
-                    graphic.SetMaterial(MeshManager.Ins.currentMapMesh.normalMaterial);
+                    graphic.SetMaterial(SkinManager.Ins.currentMapMesh.normalMaterial);
                     break;
                 case BoxType.Ice:
-                    graphic.SetMaterial(MeshManager.Ins.currentMapMesh.iceMaterial);
+                    graphic.SetMaterial(SkinManager.Ins.currentMapMesh.iceMaterial);
                     break;
             }
         }

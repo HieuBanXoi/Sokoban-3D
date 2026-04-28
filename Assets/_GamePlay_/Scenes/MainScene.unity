@@ -283,9 +283,9 @@ RectTransform:
   - {fileID: 1245583213}
   m_Father: {fileID: 104430550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -646, y: 167}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 144, y: 131}
   m_SizeDelta: {x: 188.7, y: 78.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &83793431
@@ -821,7 +821,7 @@ GameObject:
   - component: {fileID: 180405811}
   - component: {fileID: 180405812}
   m_Layer: 0
-  m_Name: MeshManager
+  m_Name: SkinManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -861,19 +861,13 @@ MonoBehaviour:
     groundMesh: {fileID: 6202518890732439607, guid: 6fd6ac68c2a56544fa636c56b4919791, type: 3}
     normalMaterial: {fileID: 6892232844440235036, guid: cdaac6bc349aeb5479e5df94b7b29327, type: 3}
     iceMaterial: {fileID: 2100000, guid: fcbe253beb5a5f3419c9ff7b768f6fb9, type: 2}
-  - onGroundMesh: {fileID: 0}
-    goalMesh: {fileID: 0}
-    wallMesh: {fileID: 0}
-    groundMesh: {fileID: 0}
-    normalMaterial: {fileID: 0}
-    iceMaterial: {fileID: 0}
-  - onGroundMesh: {fileID: 0}
-    goalMesh: {fileID: 0}
-    wallMesh: {fileID: 0}
-    groundMesh: {fileID: 0}
-    normalMaterial: {fileID: 0}
-    iceMaterial: {fileID: 0}
-  currentMapTypeIndex: 0
+  - onGroundMesh: {fileID: -4830271935607140440, guid: 955993068cf4fd24a8c295a4d80475aa, type: 3}
+    goalMesh: {fileID: 6968342067257730472, guid: fc6312e3f89a1a849ba33ffe6411315b, type: 3}
+    wallMesh: {fileID: 1149198649271804147, guid: 0378baf668ef1464aadd57f334eea3cf, type: 3}
+    groundMesh: {fileID: 6202518890732439607, guid: 6fd6ac68c2a56544fa636c56b4919791, type: 3}
+    normalMaterial: {fileID: 6892232844440235036, guid: cdaac6bc349aeb5479e5df94b7b29327, type: 3}
+    iceMaterial: {fileID: 2100000, guid: fcbe253beb5a5f3419c9ff7b768f6fb9, type: 2}
+  currentMapTypeIndex: 1
   currentMapMesh:
     onGroundMesh: {fileID: 0}
     goalMesh: {fileID: 0}
@@ -881,6 +875,19 @@ MonoBehaviour:
     groundMesh: {fileID: 0}
     normalMaterial: {fileID: 0}
     iceMaterial: {fileID: 0}
+  playerSkinPrefabs:
+  - {fileID: 919132149155446097, guid: 75cc8e0d9846be0418c3c30eecf93a97, type: 3}
+  - {fileID: 919132149155446097, guid: ea55aa8daeb1bdd4f8220db2bac71556, type: 3}
+  - {fileID: 919132149155446097, guid: 921c8fff151b0c04bbbda09d20a186b1, type: 3}
+  - {fileID: 919132149155446097, guid: 85b816d539b68f74a8c2b5105007e3ab, type: 3}
+  - {fileID: 919132149155446097, guid: 1af9ff83071b77f48bbb3be4183ddf60, type: 3}
+  - {fileID: 919132149155446097, guid: 1f3dfe2d380a5604d994f91754adc209, type: 3}
+  - {fileID: 919132149155446097, guid: ed2b5404d3cb22c499e43ea7848ab6af, type: 3}
+  - {fileID: 919132149155446097, guid: d1185d7c235aea744bdbd8f2db12017f, type: 3}
+  - {fileID: 919132149155446097, guid: d39d43cec2db710449e34aef04dd9fc5, type: 3}
+  - {fileID: 919132149155446097, guid: 3f5b23b48f3a7424ab1cdf9a9fc63a6c, type: 3}
+  sharedPlayerAnimator: {fileID: 9100000, guid: e611f13d1654ffc4db1993b7a0377f46, type: 2}
+  currentPlayerSkinIndex: 1
 --- !u!1 &204324691
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,9 +1236,9 @@ RectTransform:
   - {fileID: 83793432}
   m_Father: {fileID: 104430550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -646, y: -44}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 144, y: -80}
   m_SizeDelta: {x: 188.7, y: 78.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &416483489
@@ -2509,9 +2516,9 @@ RectTransform:
   - {fileID: 273809008}
   m_Father: {fileID: 104430550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 496, y: 280}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -211, y: -95}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1085011300
@@ -3437,10 +3444,10 @@ RectTransform:
   - {fileID: 1282640696}
   m_Father: {fileID: 104430550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 595, y: 167}
-  m_SizeDelta: {x: 188.7, y: 78.9}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -112, y: -208}
+  m_SizeDelta: {x: 188.70001, y: 78.899994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1386067282
 GameObject:
@@ -3989,9 +3996,9 @@ RectTransform:
   - {fileID: 1560421436}
   m_Father: {fileID: 104430550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -646, y: 58}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 144, y: 22}
   m_SizeDelta: {x: 188.7, y: 78.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1816168414

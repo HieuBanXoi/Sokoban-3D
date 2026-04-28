@@ -2,15 +2,9 @@ using UnityEngine;
 
 public class PlayerGraphicController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public PlayerMovement playerMovement;
+    public void ApplySkin()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        playerMovement.animator = SkinManager.Ins.ApplyPlayerSkin(this.transform);
     }
 }

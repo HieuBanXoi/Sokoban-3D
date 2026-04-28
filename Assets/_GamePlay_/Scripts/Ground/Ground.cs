@@ -27,16 +27,16 @@ public class Ground : Ply_GameUnit
         switch (groundType)
         {
             case GroundType.Ground:
-                newMesh = MeshManager.Ins.currentMapMesh.groundMesh;
+                newMesh = SkinManager.Ins.currentMapMesh.groundMesh;
                 break;
             case GroundType.OnGround:
-                newMesh = MeshManager.Ins.currentMapMesh.onGroundMesh;
+                newMesh = SkinManager.Ins.currentMapMesh.onGroundMesh;
                 break;
             case GroundType.Goal:
-                newMesh = MeshManager.Ins.currentMapMesh.goalMesh;
+                newMesh = SkinManager.Ins.currentMapMesh.goalMesh;
                 break;
             case GroundType.Wall:
-                newMesh = MeshManager.Ins.currentMapMesh.wallMesh;
+                newMesh = SkinManager.Ins.currentMapMesh.wallMesh;
                 break;
         }
 
