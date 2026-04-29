@@ -77,7 +77,7 @@ public class TutorialController : Ply_Singleton<TutorialController>
         }
         else
         {
-            LevelGenerator.Ins.GenerateMapByLevel(LevelGenerator.Ins.levelIdToLoad);
+            LevelGenerator.Ins.ReloadCurrentLevel();
             playRoutine = StartCoroutine(PlayAllRoutine());
         }
         isHintMode = false;
@@ -121,7 +121,7 @@ public class TutorialController : Ply_Singleton<TutorialController>
         hintPushLimit++;
 
         // 2. Tải lại map để robot bắt đầu từ trạng thái sạch
-        LevelGenerator.Ins.GenerateMapByLevel(LevelGenerator.Ins.levelIdToLoad);
+        LevelGenerator.Ins.ReloadCurrentLevel();
 
         // 3. Chờ cho hộp rơi xuống và ổn định vị trí (Sử dụng Yielders tối ưu)
         yield return Yielders.Get(fallWaitTime);

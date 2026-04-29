@@ -37,8 +37,13 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
     [Header("Environment Setup (2x2x2)")]
     public float gridSize = 2f; // Kích thước cube
 
-    [Header("ObjectStackHolder")]
+    [Header("Decorations")]
+    public List<GameObject> decorPrefabs; // Kéo các prefab cây cỏ, nấm, đuốc... vào đây
+    [Range(0f, 1f)] public float decorSpawnChance = 0.3f; // Tỷ lệ xuất hiện (0.3 = 30%)
+    public float decorYOffset = 1f; // Độ cao cộng thêm so với mặt tường (bạn chỉnh cho khớp với model)
+    private List<GameObject> spawnedDecors = new List<GameObject>(); // Quản lý rác decor
 
+    [Header("ObjectStackHolder")]
     public Stack<Ground> groundStack = new Stack<Ground>(); // Stack để quản lý các Ground đã spawn, giúp dễ dàng đẩy lên khi spawn Box/Player và kéo xuống khi despawn
     public Player spawnedPlayerComp; // Tham chiếu đến player đã spawn để dễ dàng quản lý
     public Stack<Box> boxStack = new Stack<Box>(); // Stack để quản lý các Box đã spawn, giúp dễ dàng đẩy lên khi spawn Box mới và kéo xuống khi despawn
@@ -55,14 +60,11 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
         {
             // Lấy level đang chọn từ SO
             int levelToPlay = DataSyncManager.Instance.gameDataSO.data.currentPlayingLevel;
-            Debug.Log($"[LevelGenerator] Đang tự động load Level {levelToPlay} từ DataSync...");
-            
             // Gọi hàm sinh map có sẵn của bạn
             GenerateMapByLevel(levelToPlay); 
         }
         else
         {
-            Debug.LogWarning("[LevelGenerator] Chạy test trực tiếp ở MainScene, load levelIdToLoad mặc định.");
             GenerateMapByLevel(levelIdToLoad);
         }
     }
@@ -140,7 +142,7 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
                 if (cellValue == 5 || cellValue == 6)
                 {
                     Ground ground = Ply_Pool.Ins.Spawn<Ground>(PoolType.Ground, pos, Quaternion.identity); // Sinh Ground bên dưới để player đứng lên
-                    ground.SetGroundType(GroundType.OnGround); // Đặt loại Ground là OnGround để hiển thị mesh khác
+                    ground.SetGroundType(cellValue == 6 ? GroundType.Goal : GroundType.OnGround); 
                     groundStack.Push(ground);
                     ground.transform.SetParent(_mapContainer);
 
@@ -184,37 +186,48 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
     }
     private void SpawnCell(int value, Vector3 position)
     {
-        // Tính toạ độ Y cho lớp phía trên (Cao lên 1 ô / gridSize)
         Vector3 layer1Pos = position + Vector3.up * gridSize;
 
-        // 1. XỬ LÝ LỚP ĐÁY (Y = 0)
-        // Nếu là vị trí có đích (2, 4, 6, 8), lót prefab Đích
+        // 1. XỬ LÝ LỚP ĐÁY (TẦNG 1: Y = 0)
+        Ground ground = Ply_Pool.Ins.Spawn<Ground>(PoolType.Ground, position, Quaternion.identity); 
+        groundStack.Push(ground);
+        ground.transform.SetParent(_mapContainer);
+
         if (value == 2 || value == 4 || value == 6 || value == 8)
         {
-            Ground ground = Ply_Pool.Ins.Spawn<Ground>(PoolType.Ground, position, Quaternion.identity); // Sinh Ground bên dưới để player đứng lên
             ground.SetGroundType(GroundType.Goal);
-            groundStack.Push(ground);
-            ground.transform.SetParent(_mapContainer);
+        }
+        else if (value == 0)
+        {
+            // Nếu ô trên là Tường (Wall), thì lớp lót tầng 1 sẽ là Ground (đất nền)
+            ground.SetGroundType(GroundType.Ground);
         }
         else
         {
-            Ground ground = Ply_Pool.Ins.Spawn<Ground>(PoolType.Ground, position, Quaternion.identity); // Sinh Ground bên dưới để player đứng lên
+            // Còn lại (đường trống), lớp lót sẽ là OnGround (sàn đá/cỏ đi lại được)
             ground.SetGroundType(GroundType.OnGround);
-            groundStack.Push(ground);
-            ground.transform.SetParent(_mapContainer);
         }
 
-        // 2. XỬ LÝ LỚP TRÊN (Y = 2)
-        // Sinh Tường
-        if (value == 0)
+        // 2. XỬ LÝ LỚP TRÊN (TẦNG 2: Y = 2)
+        if (value == 0) // Tường
         {
-            Ground ground = Ply_Pool.Ins.Spawn<Ground>(PoolType.Ground, layer1Pos, Quaternion.identity); // Sinh Ground bên dưới để player đứng lên
-            ground.SetGroundType(GroundType.Wall);
-            groundStack.Push(ground);
-            ground.transform.SetParent(_mapContainer);
+            Ground wall = Ply_Pool.Ins.Spawn<Ground>(PoolType.Ground, layer1Pos, Quaternion.identity); 
+            wall.SetGroundType(GroundType.Wall);
+            groundStack.Push(wall);
+            wall.transform.SetParent(_mapContainer);
+
+            // SINH VẬT PHẨM DECOR NGẪU NHIÊN
+            if (decorPrefabs != null && decorPrefabs.Count > 0 && Random.value <= decorSpawnChance)
+            {
+                GameObject randomDecor = decorPrefabs[Random.Range(0, decorPrefabs.Count)];
+                // Spawn cao hơn mặt tường 1 đoạn y = decorYOffset
+                Vector3 decorPos = layer1Pos + Vector3.up * decorYOffset; 
+                
+                GameObject decorInstance = Instantiate(randomDecor, decorPos, Quaternion.identity, _mapContainer);
+                spawnedDecors.Add(decorInstance); // Lưu lại để xóa khi Despawn map
+            }
         }
-        // Sinh Normal Box (nằm trên sàn hoặc nằm trên đích)
-        else if (value == 3 || value == 4)
+        else if (value == 3 || value == 4) // Hộp Thường
         {
             Box box = Ply_Pool.Ins.Spawn<Box>(PoolType.Box, layer1Pos, Quaternion.identity);
             box.transform.SetParent(levelContainer);
@@ -224,13 +237,7 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
             box.gravity.StartFalling();
             box.CheckOnGoal();
         }
-        // Sinh Player (nằm trên sàn hoặc nằm trên đích)
-        else if (value == 5 || value == 6)
-        {
-            // Player đã được handle riêng ở phần GenerateMapFromJson để dễ quản lý hơn, nên không spawn ở đây nữa
-        }
-        // Sinh Ice Box (nằm trên sàn hoặc nằm trên đích)
-        else if (value == 7 || value == 8)
+        else if (value == 7 || value == 8) // Hộp Băng
         {
             Box box = Ply_Pool.Ins.Spawn<Box>(PoolType.Box, layer1Pos, Quaternion.identity);
             box.transform.SetParent(levelContainer);
@@ -264,18 +271,13 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
             spawnedPlayerComp.Despawn();
             spawnedPlayerComp = null;
         }
-
-    }
-
-    [ContextMenu("Clear Map")]
-    public void ClearMap()
-    {
-        // Xoá tất cả các map cũ đi để gen map mới không bị đè lên nhau
-        for (int i = transform.childCount - 1; i >= 0; i--)
+        foreach (GameObject decor in spawnedDecors)
         {
-            DestroyImmediate(transform.GetChild(i).gameObject);
+            if (decor != null) Destroy(decor);
         }
+        spawnedDecors.Clear();
     }
+
 }
 
 // Gắn attribute ReadOnly để xem solution trên Inspector nhưng không bị sửa nhầm

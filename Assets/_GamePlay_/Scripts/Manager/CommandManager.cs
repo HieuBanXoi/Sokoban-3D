@@ -31,7 +31,7 @@ public class CommandManager : Ply_Singleton<CommandManager>
             Debug.LogWarning("CommandManager: Không có nước đi nào để Undo!");
             return;
         }
-
+        Debug.Log($"CommandManager: Undo lệnh thứ {commandHistory.Count}");
         // Mở khóa input và tắt animation cho Player nếu lỡ bấm Undo lúc đang đi
         if (InputManager.Ins != null && InputManager.Ins.player != null)
         {

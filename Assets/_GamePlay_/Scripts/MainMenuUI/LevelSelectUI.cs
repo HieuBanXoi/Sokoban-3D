@@ -5,9 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelectUI : MonoBehaviour
 {
+    [Header("Coin Display")]
+    public TextMeshProUGUI coinText;
     [Header("Level Buttons (Fixed 10)")]
-    public Button[] levelButtons; // Kéo 10 nút Level vào đây
-    public TextMeshProUGUI[] levelTexts; // Kéo 10 Text của 10 nút trên vào đây
+    public Button[] levelButtons; 
+    public TextMeshProUGUI[] levelTexts; 
+    public Image[] starImages; // Kéo 10 Image của ngôi sao tương ứng với 10 nút vào đây
+
+    [Header("Level State Sprites")]
+    public Sprite unlockedSprite;
+    public Sprite selectedSprite;
+    public Sprite lockedSprite;
+
+    [Header("Star Sprites")]
+    public Sprite emptyStarSprite;
+    public Sprite fullStarSprite;
 
     [Header("Navigation Buttons")]
     public Button leftArrowBtn;
@@ -15,29 +27,23 @@ public class LevelSelectUI : MonoBehaviour
     public Button playBtn;
     public Button backBtn;
 
-    [Header("Colors")]
-    public Color selectedColor = Color.yellow;
-    public Color unlockedColor = Color.white;
-    public Color lockedColor = Color.gray;
-
     private int currentPage = 0;
     private const int LEVELS_PER_PAGE = 10;
     private const int MAX_LEVELS = 50;
     private int maxPage;
 
-    // Biến tạm để lưu level người chơi đang bấm chọn trên UI
     private int tempSelectedLevel = 1; 
+
     private void Awake()
     {
-        maxPage = (MAX_LEVELS - 1) / LEVELS_PER_PAGE; // 50 level -> maxPage = 4 (Trang 0 đến 4)
+        maxPage = (MAX_LEVELS - 1) / LEVELS_PER_PAGE; 
     }
+
     private void Start()
     {
-        // Gán sự kiện chuyển trang
         leftArrowBtn.onClick.AddListener(() => ChangePage(-1));
         rightArrowBtn.onClick.AddListener(() => ChangePage(1));
         
-        // Gán sự kiện Play và Back
         playBtn.onClick.AddListener(OnPlayClicked);
         backBtn.onClick.AddListener(() => MenuUIManager.Instance.ShowDashboard());
     }
@@ -46,15 +52,22 @@ public class LevelSelectUI : MonoBehaviour
     {
         if (DataSyncManager.Instance == null) return;
 
-        // Lấy level đang lưu trong data để làm mốc
         tempSelectedLevel = DataSyncManager.Instance.gameDataSO.data.currentPlayingLevel;
-        
-        // Tính toán để mở đúng trang chứa level đang chọn (vd: level 15 -> trang 1)
         currentPage = (tempSelectedLevel - 1) / LEVELS_PER_PAGE;
         
         UpdatePageUI();
+        UpdateCoinDisplay();
     }
-
+    // Hàm cập nhật hiển thị số tiền
+    public void UpdateCoinDisplay()
+    {
+        if (coinText != null && DataSyncManager.Instance != null)
+        {
+            // Lấy dữ liệu coin từ GameDataSO
+            int currentCoins = DataSyncManager.Instance.gameDataSO.data.coins;
+            coinText.text = currentCoins.ToString();
+        }
+    }
     private void ChangePage(int direction)
     {
         currentPage += direction;
@@ -64,59 +77,56 @@ public class LevelSelectUI : MonoBehaviour
 
     private void UpdatePageUI()
     {
-        // 1. Cập nhật trạng thái hiển thị của 2 nút mũi tên
         leftArrowBtn.gameObject.SetActive(currentPage > 0);
         rightArrowBtn.gameObject.SetActive(currentPage < maxPage);
 
         var data = DataSyncManager.Instance.gameDataSO.data;
 
-        // 2. Cập nhật 10 nút Level cố định
         for (int i = 0; i < LEVELS_PER_PAGE; i++)
         {
-            int levelId = (currentPage * LEVELS_PER_PAGE) + i + 1; // Tính toán ID thực tế (1 đến 50)
+            int levelId = (currentPage * LEVELS_PER_PAGE) + i + 1; 
             
-            // Xóa hết sự kiện cũ của nút này
             levelButtons[i].onClick.RemoveAllListeners();
 
             if (levelId <= MAX_LEVELS)
             {
                 levelButtons[i].gameObject.SetActive(true);
+                // Hiển thị ngôi sao nếu map tồn tại
+                if(starImages[i] != null) starImages[i].gameObject.SetActive(true);
+
                 levelTexts[i].text = levelId.ToString();
 
-                // Tìm data của level này
                 LevelStatus levelStatus = data.levels.Find(l => l.levelIndex == levelId);
                 bool isUnlocked = (levelStatus != null && levelStatus.isUnlocked);
 
                 if (isUnlocked)
                 {
                     levelButtons[i].interactable = true;
-                    // Gán sự kiện mới
                     int idToSelect = levelId; 
                     levelButtons[i].onClick.AddListener(() => OnLevelSelected(idToSelect));
                 }
                 else
                 {
-                    // Khóa nút nếu chưa mở
                     levelButtons[i].interactable = false;
                 }
             }
             else
             {
-                // Ẩn nút nếu vượt quá số lượng map (vd sau này có 45 map)
                 levelButtons[i].gameObject.SetActive(false);
+                if(starImages[i] != null) starImages[i].gameObject.SetActive(false);
             }
         }
 
-        RefreshButtonColors();
+        RefreshLevelSprites();
     }
 
     private void OnLevelSelected(int levelId)
     {
         tempSelectedLevel = levelId;
-        RefreshButtonColors();
+        RefreshLevelSprites();
     }
 
-    private void RefreshButtonColors()
+    private void RefreshLevelSprites()
     {
         if (DataSyncManager.Instance == null) return;
         var data = DataSyncManager.Instance.gameDataSO.data;
@@ -128,35 +138,36 @@ public class LevelSelectUI : MonoBehaviour
 
             Image btnImage = levelButtons[i].GetComponent<Image>();
             LevelStatus levelStatus = data.levels.Find(l => l.levelIndex == levelId);
+            
             bool isUnlocked = (levelStatus != null && levelStatus.isUnlocked);
+            bool isCompleted = (levelStatus != null && levelStatus.isCompleted);
 
+            // 1. Cập nhật Sprite cho nút Level
             if (!isUnlocked)
             {
-                btnImage.color = lockedColor;
+                btnImage.sprite = lockedSprite;
             }
             else if (levelId == tempSelectedLevel)
             {
-                btnImage.color = selectedColor; // Sáng màu vàng nếu đang được chọn
+                btnImage.sprite = selectedSprite;
             }
             else
             {
-                btnImage.color = unlockedColor;
+                btnImage.sprite = unlockedSprite;
+            }
+
+            // 2. Cập nhật Sprite cho Ngôi sao
+            if (starImages[i] != null)
+            {
+                starImages[i].sprite = isCompleted ? fullStarSprite : emptyStarSprite;
             }
         }
     }
 
     private void OnPlayClicked()
     {
-        // 1. Lưu lại level vừa chọn vào GameData
         DataSyncManager.Instance.gameDataSO.data.currentPlayingLevel = tempSelectedLevel;
-        
-        // Lưu xuống Local (Có thể bỏ qua lưu Cloud ở bước này để Load scene cho nhanh, 
-        // lúc end game thắng/thua lưu Cloud sau cũng được).
         _=DataSyncManager.Instance.SaveGameGlobal(); 
-
-        Debug.Log($"[LevelUI] Chuẩn bị vào Game với Level: {tempSelectedLevel}");
-
-        // 2. Load sang MainScene (Đảm bảo tên Scene chính xác)
         SceneManager.LoadScene("MainScene"); 
     }
 }

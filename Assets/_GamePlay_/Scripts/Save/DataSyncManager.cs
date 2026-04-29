@@ -44,23 +44,21 @@ public class DataSyncManager : MonoBehaviour
     private async void Start()
     {
         if (autoSyncOnStart)
-    {
-        // 1. Hiện màn hình, bắt đầu loading
-        infoText.text = "Khởi tạo hệ thống...";
-        loadingSlider.value = 0.1f;
+        {
+            // Chuyển sang tiếng Anh
+            infoText.text = "Initializing system...";
+            loadingSlider.value = 0.1f;
 
-        // 2. Chạy logic đồng bộ ngầm
-        await InitializeAndSync(); 
-        
-        loadingSlider.value = 0.8f;
-        infoText.text = "Đồng bộ hoàn tất!";
+            await InitializeAndSync(); 
+            
+            loadingSlider.value = 0.8f;
+            // Chuyển sang tiếng Anh
+            infoText.text = "Sync complete!";
 
-        // 3. Hiệu ứng mờ dần trước khi chuyển scene
-        await Task.Delay(500); // Đợi một chút để người chơi kịp nhìn thấy chữ "Hoàn tất"
-        // Gọi hàm Fade Out của bạn ở đây...
+            await Task.Delay(500); 
 
-        SceneManager.LoadScene(mainMenuSceneName);
-    }
+            SceneManager.LoadScene(mainMenuSceneName);
+        }
     }
 
     /// <summary>

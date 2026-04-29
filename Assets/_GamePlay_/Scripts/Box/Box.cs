@@ -160,7 +160,14 @@ public class Box : Ply_GameUnit
                 if (!box.isOnGoal) return;
             }
             // Nếu đến đây, tất cả hộp đều trên đích
-            Debug.Log("Level Completed!");
+            if (GameplayUIManager.Ins != null)
+            {
+                GameplayUIManager.Ins.OnLevelCompleted();
+            }
+            else
+            {
+                Debug.Log("Level Completed! (No UI Manager found)");
+            }
         }
     }
 }

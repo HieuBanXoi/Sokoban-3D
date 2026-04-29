@@ -35,7 +35,7 @@ public class DashboardUI : MonoBehaviour
         if (DataSyncManager.Instance != null && DataSyncManager.Instance.gameDataSO != null)
         {
             int currentCoins = DataSyncManager.Instance.gameDataSO.data.coins;
-            coinText.text = currentCoins.ToString() + " <sprite index=0>";
+            coinText.text = currentCoins.ToString();
         }
     }
 

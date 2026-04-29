@@ -1,0 +1,1469 @@
+fileFormatVersion: 2
+guid: 06ddd91994a84ba4eb48e3e89cfb8d0b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4397376374077077470
+    second: bot
+  - first:
+      213: -7680168188768817300
+    second: Button_BG
+  - first:
+      213: -4937799242134460900
+    second: coin
+  - first:
+      213: -4295245439391013226
+    second: Continue_Button_Blue
+  - first:
+      213: -5093987597489380629
+    second: Continue_Heart
+  - first:
+      213: 2549478119957665339
+    second: Continue_Shadow
+  - first:
+      213: 4350692967182185145
+    second: fire
+  - first:
+      213: 9143576708715936023
+    second: Highscore_BG_2
+  - first:
+      213: 8968894577945027273
+    second: Left
+  - first:
+      213: -7535548235986674616
+    second: Pause_BG
+  - first:
+      213: 5466186278858028862
+    second: Pause_Button_Green
+  - first:
+      213: 4491312959716999569
+    second: Pause_Music
+  - first:
+      213: 2199131580126884595
+    second: Pause_off
+  - first:
+      213: -7558870840363382527
+    second: Pause_on
+  - first:
+      213: 3135820453200422002
+    second: Pause_on_off
+  - first:
+      213: -7071641906274558295
+    second: Pause_Sound
+  - first:
+      213: -5472765355178564698
+    second: Pause_Vibration
+  - first:
+      213: 1744430340259953645
+    second: top
+  - first:
+      213: -8175679749563380776
+    second: Victory_BG
+  - first:
+      213: -3022800932826010639
+    second: Victory_BG_2
+  - first:
+      213: -1131544222118754228
+    second: Victory_Flag_1
+  - first:
+      213: 7701401045714903899
+    second: Victory_Flag_2
+  - first:
+      213: -7236292162859024002
+    second: Victory_Star
+  - first:
+      213: 3192441939780887698
+    second: Highscore_1
+  - first:
+      213: 6738420657413137873
+    second: Continue_Heart BG
+  - first:
+      213: -4810515637268268697
+    second: Pause_icon
+  - first:
+      213: -342671535845954577
+    second: Victory_Flag
+  - first:
+      213: -3978591843032089677
+    second: button_play-bot
+  - first:
+      213: -2800546782126240279
+    second: button_play-Button_BG
+  - first:
+      213: -7014713777976522050
+    second: button_play-coin
+  - first:
+      213: -1196999572132632105
+    second: button_play-fire
+  - first:
+      213: -1097541198798094542
+    second: button_play-Left
+  - first:
+      213: 3621102322728847734
+    second: button_play-top
+  - first:
+      213: -7967095927147397227
+    second: Continue-Continue_Button_Blue
+  - first:
+      213: 7122129042559417188
+    second: Continue-Continue_Heart BG
+  - first:
+      213: -926189702330584182
+    second: Continue-Continue_Heart
+  - first:
+      213: -6302502924766142847
+    second: Continue-Continue_Shadow
+  - first:
+      213: -7238487832708371442
+    second: Pause-Pause_BG
+  - first:
+      213: 5768061800864677674
+    second: Pause-Pause_Button_Green
+  - first:
+      213: -2527508595977010761
+    second: Pause-Pause_Music
+  - first:
+      213: 2555200984142082119
+    second: Pause-Pause_off
+  - first:
+      213: -3891113515966250408
+    second: Pause-Pause_on
+  - first:
+      213: 7600705983401982977
+    second: Pause-Pause_on_off
+  - first:
+      213: -1951318148173895464
+    second: Pause-Pause_Sound
+  - first:
+      213: 3035238665359166063
+    second: Pause-Pause_Vibration
+  - first:
+      213: -8334178563100913961
+    second: Victory-Highscore_1
+  - first:
+      213: 4721715439767161422
+    second: Victory-Highscore_BG_2
+  - first:
+      213: -8126579431907316492
+    second: Victory-Victory_BG
+  - first:
+      213: 3184909707968056401
+    second: Victory-Victory_BG_2
+  - first:
+      213: 7463418189230132985
+    second: Victory-Victory_Flag
+  - first:
+      213: 8898240800584289904
+    second: Victory-Victory_Flag_2
+  - first:
+      213: -6244752475241617200
+    second: Victory-Victory_Star
+  - first:
+      213: 8245635904041001933
+    second: Victory-Victory_Star_off
+  - first:
+      213: 4624925572217574209
+    second: Button-button_blue
+  - first:
+      213: -843157038764699823
+    second: Button-button_gray
+  - first:
+      213: -2543738935561532232
+    second: Button-button_green
+  - first:
+      213: -4608331030744237140
+    second: Button-button_red
+  - first:
+      213: 1112066687053169968
+    second: Button-button_yellow
+  - first:
+      213: -9079182191745561445
+    second: Pause-Pause_on_OFF!
+  - first:
+      213: -4837954775597283067
+    second: Shop_icon
+  - first:
+      213: -6070889688802373501
+    second: Time_icon
+  - first:
+      213: -8577348652623342323
+    second: Main-Button-Button_Next
+  - first:
+      213: 99256869198590325
+    second: Main-Button-Coin_+
+  - first:
+      213: -758677902563113801
+    second: Main-Button-Coin_BG
+  - first:
+      213: -597193511363085878
+    second: Main-Button-Gift
+  - first:
+      213: -3540404693795558949
+    second: Main-Button-Icon_!
+  - first:
+      213: 3342286818564776404
+    second: Main-Button-Icon_BG
+  - first:
+      213: 2723741580254388669
+    second: Main-Button-Icon_Daily
+  - first:
+      213: -7296734399776185842
+    second: Main-Button-Icon_Gift
+  - first:
+      213: 6723106398215518173
+    second: Main-Button-Icon_Setting
+  - first:
+      213: 403952663575842202
+    second: Main-Button-Icon_Spin
+  - first:
+      213: -2775158864848673515
+    second: Main-Shadow_character
+  - first:
+      213: -2209287509720033803
+    second: Main-Tree_1
+  - first:
+      213: -1153103945065789292
+    second: Main-Tree_2
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Button-button_blue
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 1512
+        width: 317
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 79, y: 31, z: 79, w: 62}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14316a4dd490f2040800000000000000
+      internalID: 4624925572217574209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button-button_gray
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 1386
+        width: 317
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 79, y: 31, z: 79, w: 62}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15f4f86f3218c44f0800000000000000
+      internalID: -843157038764699823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button-button_green
+      rect:
+        serializedVersion: 2
+        x: 1686
+        y: 1260
+        width: 317
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 79, y: 31, z: 79, w: 63}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bc46885ae2d2bcd0800000000000000
+      internalID: -2543738935561532232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button-button_red
+      rect:
+        serializedVersion: 2
+        x: 1686
+        y: 1134
+        width: 317
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 79, y: 31, z: 79, w: 65}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cab7411f75beb00c0800000000000000
+      internalID: -4608331030744237140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button-button_yellow
+      rect:
+        serializedVersion: 2
+        x: 1686
+        y: 1008
+        width: 317
+        height: 124
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 79, y: 31, z: 79, w: 64}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 035895882cade6f00800000000000000
+      internalID: 1112066687053169968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: button_play-bot
+      rect:
+        serializedVersion: 2
+        x: 1905
+        y: 548
+        width: 135
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bb3ec95cc339c8c0800000000000000
+      internalID: -3978591843032089677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: button_play-Button_BG
+      rect:
+        serializedVersion: 2
+        x: 1686
+        y: 384
+        width: 201
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ed80822a857229d0800000000000000
+      internalID: -2800546782126240279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: button_play-coin
+      rect:
+        serializedVersion: 2
+        x: 2011
+        y: 1582
+        width: 36
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebacba60cfab6ae90800000000000000
+      internalID: -7014713777976522050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: button_play-fire
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 261
+        width: 131
+        height: 121
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d96dba2b37636fe0800000000000000
+      internalID: -1196999572132632105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: button_play-Left
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 248
+        width: 100
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23f784f3810c4c0f0800000000000000
+      internalID: -1097541198798094542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: button_play-top
+      rect:
+        serializedVersion: 2
+        x: 1908
+        y: 697
+        width: 135
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6794899806db04230800000000000000
+      internalID: 3621102322728847734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Continue-Continue_Button_Blue
+      rect:
+        serializedVersion: 2
+        x: 1686
+        y: 904
+        width: 281
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 70, y: 25, z: 70, w: 44}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59ffaea37703f6190800000000000000
+      internalID: -7967095927147397227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Continue-Continue_Heart BG
+      rect:
+        serializedVersion: 2
+        x: 1686
+        y: 706
+        width: 220
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46b3f3a21a2e6d260800000000000000
+      internalID: 7122129042559417188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Continue-Continue_Heart
+      rect:
+        serializedVersion: 2
+        x: 584
+        y: 49
+        width: 196
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a83f5f57f538523f0800000000000000
+      internalID: -926189702330584182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Continue-Continue_Shadow
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 1638
+        width: 323
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18e14756bf20988a0800000000000000
+      internalID: -6302502924766142847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Button-Button_Next
+      rect:
+        serializedVersion: 2
+        x: 1969
+        y: 800
+        width: 70
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d05d5bd58d227f880800000000000000
+      internalID: -8577348652623342323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Button-Coin_+
+      rect:
+        serializedVersion: 2
+        x: 1969
+        y: 928
+        width: 78
+        height: 78
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 571791eb891a06100800000000000000
+      internalID: 99256869198590325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Button-Coin_BG
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 1969
+        width: 350
+        height: 78
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b489ce9772a875f0800000000000000
+      internalID: -758677902563113801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Button-Gift
+      rect:
+        serializedVersion: 2
+        x: 1905
+        y: 650
+        width: 142
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac9f80d5aa756b7f0800000000000000
+      internalID: -597193511363085878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Button-Icon_!
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 948
+        width: 67
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd9a03950b4fddec0800000000000000
+      internalID: -3540404693795558949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Button-Icon_BG
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 29
+        width: 195
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d1260e3720326e20800000000000000
+      internalID: 3342286818564776404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Button-Icon_Daily
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 232
+        width: 159
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db12607498cacc520800000000000000
+      internalID: 2723741580254388669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Button-Icon_Gift
+      rect:
+        serializedVersion: 2
+        x: 1889
+        y: 388
+        width: 155
+        height: 158
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e02a7f029baccba90800000000000000
+      internalID: -7296734399776185842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Button-Icon_Setting
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 269
+        width: 109
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd7bacc06a54d4d50800000000000000
+      internalID: 6723106398215518173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Button-Icon_Spin
+      rect:
+        serializedVersion: 2
+        x: 1889
+        y: 226
+        width: 151
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9dc28aaec02b9500800000000000000
+      internalID: 403952663575842202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Shadow_character
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 429
+        width: 483
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5152b6147b7ac79d0800000000000000
+      internalID: -2775158864848673515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Tree_1
+      rect:
+        serializedVersion: 2
+        x: 972
+        y: 557
+        width: 712
+        height: 880
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f51e6817b80751e0800000000000000
+      internalID: -2209287509720033803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main-Tree_2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 604
+        width: 493
+        height: 694
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4988045421a5fffe0800000000000000
+      internalID: -1153103945065789292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pause-Pause_BG
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1300
+        width: 969
+        height: 747
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 242, y: 187, z: 242, w: 187}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0c2e64daa9bb8b90800000000000000
+      internalID: -7238487832708371442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pause-Pause_Button_Green
+      rect:
+        serializedVersion: 2
+        x: 1686
+        y: 587
+        width: 217
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 54, y: 29, z: 54, w: 57}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2ff90bb5a54c0050800000000000000
+      internalID: 5768061800864677674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pause-Pause_Music
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 270
+        width: 112
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b14b02c25c7cecd0800000000000000
+      internalID: -2527508595977010761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pause-Pause_off
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 1247
+        width: 119
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 740748dc1c5e57320800000000000000
+      internalID: 2555200984142082119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pause-Pause_on
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 1194
+        width: 119
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8524c1c8fdcfff9c0800000000000000
+      internalID: -3891113515966250408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pause-Pause_on_OFF!
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 756
+        width: 62
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9c04f176e3400280800000000000000
+      internalID: -9079182191745561445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pause-Pause_on_off
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 689
+        width: 62
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10c7cd652d12b7960800000000000000
+      internalID: 7600705983401982977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pause-Pause_Sound
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 270
+        width: 112
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d862569b768be4e0800000000000000
+      internalID: -1951318148173895464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pause-Pause_Vibration
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 270
+        width: 112
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6a83491c755f1a20800000000000000
+      internalID: 3035238665359166063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pause_icon
+      rect:
+        serializedVersion: 2
+        x: 1908
+        y: 830
+        width: 56
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 769b92ed38d9d3db0800000000000000
+      internalID: -4810515637268268697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop_icon
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 881
+        width: 67
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5098e11a3c12cdcb0800000000000000
+      internalID: -4837954775597283067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Time_icon
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 1019
+        width: 68
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3805a543efddfbba0800000000000000
+      internalID: -6070889688802373501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Victory-Highscore_1
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 1103
+        width: 89
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dec1b3d0cc075c80800000000000000
+      internalID: -8334178563100913961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Victory-Highscore_BG_2
+      rect:
+        serializedVersion: 2
+        x: 496
+        y: 823
+        width: 419
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4a8ccdfc27e68140800000000000000
+      internalID: 4721715439767161422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Victory-Victory_BG
+      rect:
+        serializedVersion: 2
+        x: 972
+        y: 1439
+        width: 718
+        height: 608
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 180, y: 152, z: 179, w: 152}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fc2b2a2017983f80800000000000000
+      internalID: -8126579431907316492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Victory-Victory_BG_2
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 492
+        width: 521
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15c01294182133c20800000000000000
+      internalID: 3184909707968056401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Victory-Victory_Flag
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 390
+        width: 610
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fe404bdc43639760800000000000000
+      internalID: 7463418189230132985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Victory-Victory_Flag_2
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 1691
+        width: 337
+        height: 276
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07ec6bcfcd6ec7b70800000000000000
+      internalID: 8898240800584289904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Victory-Victory_Star
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 40
+        width: 191
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d86bfab5be2659a0800000000000000
+      internalID: -6244752475241617200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Victory-Victory_Star_off
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 40
+        width: 191
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc3229fda226e6270800000000000000
+      internalID: 8245635904041001933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Button-button_blue: 4624925572217574209
+      Button-button_gray: -843157038764699823
+      Button-button_green: -2543738935561532232
+      Button-button_red: -4608331030744237140
+      Button-button_yellow: 1112066687053169968
+      Continue-Continue_Button_Blue: -7967095927147397227
+      Continue-Continue_Heart: -926189702330584182
+      Continue-Continue_Heart BG: 7122129042559417188
+      Continue-Continue_Shadow: -6302502924766142847
+      Main-Button-Button_Next: -8577348652623342323
+      Main-Button-Coin_+: 99256869198590325
+      Main-Button-Coin_BG: -758677902563113801
+      Main-Button-Gift: -597193511363085878
+      Main-Button-Icon_!: -3540404693795558949
+      Main-Button-Icon_BG: 3342286818564776404
+      Main-Button-Icon_Daily: 2723741580254388669
+      Main-Button-Icon_Gift: -7296734399776185842
+      Main-Button-Icon_Setting: 6723106398215518173
+      Main-Button-Icon_Spin: 403952663575842202
+      Main-Shadow_character: -2775158864848673515
+      Main-Tree_1: -2209287509720033803
+      Main-Tree_2: -1153103945065789292
+      Pause-Pause_BG: -7238487832708371442
+      Pause-Pause_Button_Green: 5768061800864677674
+      Pause-Pause_Music: -2527508595977010761
+      Pause-Pause_Sound: -1951318148173895464
+      Pause-Pause_Vibration: 3035238665359166063
+      Pause-Pause_off: 2555200984142082119
+      Pause-Pause_on: -3891113515966250408
+      Pause-Pause_on_OFF!: -9079182191745561445
+      Pause-Pause_on_off: 7600705983401982977
+      Pause_icon: -4810515637268268697
+      Shop_icon: -4837954775597283067
+      Time_icon: -6070889688802373501
+      Victory-Highscore_1: -8334178563100913961
+      Victory-Highscore_BG_2: 4721715439767161422
+      Victory-Victory_BG: -8126579431907316492
+      Victory-Victory_BG_2: 3184909707968056401
+      Victory-Victory_Flag: 7463418189230132985
+      Victory-Victory_Flag_2: 8898240800584289904
+      Victory-Victory_Star: -6244752475241617200
+      Victory-Victory_Star_off: 8245635904041001933
+      button_play-Button_BG: -2800546782126240279
+      button_play-Left: -1097541198798094542
+      button_play-bot: -3978591843032089677
+      button_play-coin: -7014713777976522050
+      button_play-fire: -1196999572132632105
+      button_play-top: 3621102322728847734
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

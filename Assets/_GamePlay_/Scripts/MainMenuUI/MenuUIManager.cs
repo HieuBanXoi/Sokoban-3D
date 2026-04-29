@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuUIManager : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class MenuUIManager : MonoBehaviour
     public GameObject levelCanvas;     // Chọn Map/Level
     public GameObject skinCanvas;      // Chọn Skin NV
     public GameObject mapSkinCanvas;   // Chọn Skin Map
+    [Header("Audio Setting")]
+    public Button audioSettingBtn;
+    public GameObject audioSettingPanel;
 
     private void Awake()
     {
@@ -25,7 +29,30 @@ public class MenuUIManager : MonoBehaviour
         Instance = this;
         ShowStartLogIn(); 
     }
-
+    private void Start()
+    {
+        // Kiểm tra xem có phải vừa từ MainScene (Gameplay) quay về không?
+        if (MenuRouteManager.isReturningFromGame)
+        {
+            // Tắt cờ đi để lần sau mở game bình thường nó không bị nhầm
+            MenuRouteManager.isReturningFromGame = false;
+            
+            // Bay thẳng vào Dashboard thay vì màn hình 3 nút
+            ShowDashboard(); 
+        }
+        // Thiết lập nút mở Audio Setting
+        if (audioSettingBtn != null)        {
+            audioSettingBtn.onClick.AddListener(OpenAudioSetting);
+        }
+    }
+    public void ToggleAudioSetting(bool isShow)
+    {
+        if (audioSettingPanel != null)
+        {
+            audioSettingPanel.SetActive(isShow);
+        }
+    }
+    public void OpenAudioSetting() => ToggleAudioSetting(true);
     // Các hàm show UI xác thực cũ
     public void ShowLoading() => SetActiveCanvas(loadingCanvas);
     public void ShowStartLogIn() => SetActiveCanvas(startLogInCanvas);

@@ -4,7 +4,6 @@ public class WaitingState : IGameState
 {
     public void OnEnter(GameManager gameManager)
     {
-        UIManager.Ins.ActiveTutorialUI(true);
         gameManager.isPlaying = true;
     }
 
@@ -15,6 +14,5 @@ public class WaitingState : IGameState
 
     public void OnExit(GameManager gameManager)
     {
-        UIManager.Ins.ActiveTutorialUI(false);
     }
 }

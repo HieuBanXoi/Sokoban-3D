@@ -1,110 +1,165 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections;
 
 public class CharacterSkinUI : MonoBehaviour
 {
-    [Header("Buttons")]
-    public Button[] skinButtons; 
+    [Header("Sprites Data")]
+    public Sprite[] allSkinSprites; // Kéo thả 10 ảnh skin vào đây
+
+    [Header("UI Display")]
+    public Image skinDisplayImage;      
+    public TextMeshProUGUI skinNameText; 
+    public TextMeshProUGUI coinText;    
+    public TextMeshProUGUI errorMsgText;
+
+    [Header("Navigation")]
+    public Button leftArrowBtn;
+    public Button rightArrowBtn;
+    private int viewIndex = 0; 
+
+    [Header("Unlock Button")]
+    public Button unlockBtn;
+    public TextMeshProUGUI unlockBtnText;
+    public Image unlockBtnImage;
+
+    [Header("Equip Button")]
+    public Button equipBtn;
+    public TextMeshProUGUI equipBtnText;
+    public Image equipBtnImage;
+    
+    [Header("Button Sprites")]
+    public Sprite btnCanPressSprite;   // Sprite khi nút có thể bấm
+    public Sprite btnDisabledSprite;   // Sprite khi nút bị khóa/vô hiệu hóa
+    public Sprite btnEquippedSprite;   // Sprite khi đã trang bị (Equipped)
+
+    [Header("Common")]
     public Button backBtn;
 
-    [Header("Colors")]
-    public Color selectedColor = Color.yellow;
-    public Color defaultColor = Color.white;
-    
-    // Thêm màu xám để báo hiệu skin chưa mua
-    public Color lockedColor = Color.gray; 
-
-    // Cài đặt giá tiền
-    private const int SKIN_PRICE = 100;
+    private const int UNLOCK_PRICE = 100;
 
     private void Start()
     {
+        leftArrowBtn.onClick.AddListener(() => ChangeView(-1));
+        rightArrowBtn.onClick.AddListener(() => ChangeView(1));
+        
+        unlockBtn.onClick.AddListener(OnUnlockClicked);
+        equipBtn.onClick.AddListener(OnEquipClicked);
+        
         backBtn.onClick.AddListener(() => MenuUIManager.Instance.ShowDashboard());
-
-        for (int i = 0; i < skinButtons.Length; i++)
-        {
-            int index = i; 
-            skinButtons[i].onClick.AddListener(() => OnSkinButtonClicked(index));
-        }
+        
+        if (errorMsgText != null) errorMsgText.gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
-        RefreshUI();
+        if (DataSyncManager.Instance != null && DataSyncManager.Instance.gameDataSO != null)
+        {
+            viewIndex = DataSyncManager.Instance.gameDataSO.data.currentCharacterSkinIndex;
+        }
+        UpdateUI();
     }
 
-    private void OnSkinButtonClicked(int index)
+    private void ChangeView(int dir)
     {
-        if (DataSyncManager.Instance == null || DataSyncManager.Instance.gameDataSO == null) return;
-        
+        if (allSkinSprites.Length == 0) return;
+        viewIndex += dir;
+
+        if (viewIndex < 0) viewIndex = allSkinSprites.Length - 1;
+        if (viewIndex >= allSkinSprites.Length) viewIndex = 0;
+
+        if (errorMsgText != null) errorMsgText.gameObject.SetActive(false);
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        if (DataSyncManager.Instance == null || allSkinSprites.Length == 0) return;
+
         var data = DataSyncManager.Instance.gameDataSO.data;
+        bool isUnlocked = (viewIndex < data.characterSkins.Count) && data.characterSkins[viewIndex].isUnlocked;
+        bool isEquipped = (data.currentCharacterSkinIndex == viewIndex);
+
+        // 1. Hiển thị Skin và Tên
+        skinNameText.text = allSkinSprites[viewIndex].name;
+        skinDisplayImage.sprite = allSkinSprites[viewIndex];
+        skinDisplayImage.SetNativeSize();
         
-        // Kiểm tra xem index có hợp lệ không
-        if (index < data.characterSkins.Count)
+        // Chỉnh màu đen cho skin chưa mở khóa thay vì dùng sprite riêng
+        skinDisplayImage.color = isUnlocked ? Color.white : Color.black;
+
+        // 2. Logic Nút Unlock
+        if (isUnlocked)
         {
-            // TRƯỜNG HỢP 1: ĐÃ MỞ KHÓA -> Chỉ cần trang bị
-            if (data.characterSkins[index].isUnlocked)
-            {
-                data.currentCharacterSkinIndex = index;
-                _=DataSyncManager.Instance.SaveGameGlobal();
-                RefreshUI();
-                Debug.Log($"[CharacterSkin] Đã trang bị skin số {index}");
-            }
-            // TRƯỜNG HỢP 2: CHƯA MỞ KHÓA -> Tiến hành mua
-            else
-            {
-                if (data.coins >= SKIN_PRICE)
-                {
-                    // Trừ tiền
-                    data.coins -= SKIN_PRICE;
-                    // Mở khóa skin
-                    data.characterSkins[index].isUnlocked = true;
-                    // Tự động trang bị luôn sau khi mua
-                    data.currentCharacterSkinIndex = index;
-                    
-                    // Lưu dữ liệu để không bị mất tiền & mất skin nếu thoát game
-                    _=DataSyncManager.Instance.SaveGameGlobal();
-                    RefreshUI();
-                    
-                    Debug.Log($"[CharacterSkin] Mua THÀNH CÔNG skin số {index}. Coin còn lại: {data.coins}");
-                }
-                else
-                {
-                    Debug.LogWarning($"[CharacterSkin] KHÔNG ĐỦ TIỀN! Cần {SKIN_PRICE} coin nhưng bạn chỉ có {data.coins} coin.");
-                    // Ở đây sau này bạn có thể hiện lên một bảng Text thông báo lỗi cho người chơi
-                }
-            }
+            unlockBtnText.text = "Unlocked";
+            unlockBtn.interactable = false;
+            unlockBtnImage.sprite = btnDisabledSprite;
+        }
+        else
+        {
+            unlockBtnText.text = "Unlock (100)";
+            unlockBtn.interactable = (data.coins >= UNLOCK_PRICE);
+            unlockBtnImage.sprite = unlockBtn.interactable ? btnCanPressSprite : btnDisabledSprite;
+        }
+
+        // 3. Logic Nút Equip
+        if (!isUnlocked)
+        {
+            equipBtnText.text = "Equip";
+            equipBtn.interactable = false; // Chưa unlock thì không thể equip
+            equipBtnImage.sprite = btnDisabledSprite;
+        }
+        else if (isEquipped)
+        {
+            equipBtnText.text = "Equipped";
+            equipBtn.interactable = false;
+            equipBtnImage.sprite = btnEquippedSprite;
+        }
+        else
+        {
+            equipBtnText.text = "Equip";
+            equipBtn.interactable = true;
+            equipBtnImage.sprite = btnCanPressSprite;
+        }
+
+        // 4. Cập nhật Coin
+        coinText.text = data.coins.ToString();
+    }
+
+    private void OnUnlockClicked()
+    {
+        var data = DataSyncManager.Instance.gameDataSO.data;
+
+        if (data.coins >= UNLOCK_PRICE)
+        {
+            data.coins -= UNLOCK_PRICE;
+            data.characterSkins[viewIndex].isUnlocked = true;
+            
+            _ = DataSyncManager.Instance.SaveGameGlobal();
+            UpdateUI();
+        }
+        else
+        {
+            StopAllCoroutines();
+            StartCoroutine(ShowErrorMsg("Not enough coins!"));
         }
     }
 
-    private void RefreshUI()
+    private void OnEquipClicked()
     {
-        if (DataSyncManager.Instance == null) return;
-
         var data = DataSyncManager.Instance.gameDataSO.data;
-        int currentIndex = data.currentCharacterSkinIndex;
+        data.currentCharacterSkinIndex = viewIndex;
+        
+        _ = DataSyncManager.Instance.SaveGameGlobal();
+        UpdateUI();
+    }
 
-        for (int i = 0; i < skinButtons.Length; i++)
-        {
-            Image btnImage = skinButtons[i].GetComponent<Image>();
-            if (btnImage != null)
-            {
-                // Nếu đang được chọn -> Màu vàng
-                if (i == currentIndex) 
-                {
-                    btnImage.color = selectedColor;
-                }
-                // Nếu chưa mở khóa -> Màu xám để dễ nhận biết
-                else if (!data.characterSkins[i].isUnlocked) 
-                {
-                    btnImage.color = lockedColor;
-                }
-                // Đã mở khóa nhưng không dùng -> Màu trắng
-                else 
-                {
-                    btnImage.color = defaultColor;
-                }
-            }
-        }
+    private IEnumerator ShowErrorMsg(string msg)
+    {
+        errorMsgText.text = msg;
+        errorMsgText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        errorMsgText.gameObject.SetActive(false);
     }
 }

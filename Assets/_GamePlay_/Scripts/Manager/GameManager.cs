@@ -45,7 +45,6 @@ public class GameManager : Ply_Singleton<GameManager>
     {
         if (isTutorial)
         {
-            UIManager.Ins.ActiveTutorialUI(false);
             isTutorial= false;
         }
     }
