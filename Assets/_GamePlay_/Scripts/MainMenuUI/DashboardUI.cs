@@ -1,13 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Threading.Tasks; // Thêm thư viện này để dùng Task.Delay
+using System.Threading.Tasks; 
 
 public class DashboardUI : MonoBehaviour
 {
     [Header("UI Elements")]
     public TextMeshProUGUI coinText;
-    
+    public TextMeshProUGUI currentLevelText; 
+    public Image currentCharacterSkinImage;
+    public Image currentMapSkinImage;
+
     [Header("Navigation Buttons")]
     public Button selectLevelBtn;
     public Button selectSkinBtn;
@@ -16,42 +19,59 @@ public class DashboardUI : MonoBehaviour
 
     private void Start()
     {
-        // Gán sự kiện chuyển UI cho các nút phụ
         selectLevelBtn.onClick.AddListener(() => MenuUIManager.Instance.ShowLevelSelect());
         selectSkinBtn.onClick.AddListener(() => MenuUIManager.Instance.ShowSkinSelect());
         selectMapSkinBtn.onClick.AddListener(() => MenuUIManager.Instance.ShowMapSkinSelect());
         
-        // Sửa lại logic của nút đăng xuất
         logoutBtn.onClick.AddListener(OnLogoutClicked);
     }
 
     private void OnEnable()
     {
-        UpdateCoinDisplay();
+        UpdateDashboardInfo(); 
     }
 
-    public void UpdateCoinDisplay()
+    public void UpdateDashboardInfo()
     {
-        if (DataSyncManager.Instance != null && DataSyncManager.Instance.gameDataSO != null)
+        if (DataSyncManager.Instance == null || DataSyncManager.Instance.gameDataSO == null) return;
+
+        var data = DataSyncManager.Instance.gameDataSO.data;
+
+        if (coinText != null) coinText.text = data.coins.ToString();
+
+        if (currentLevelText != null)
         {
-            int currentCoins = DataSyncManager.Instance.gameDataSO.data.coins;
-            coinText.text = currentCoins.ToString();
+            currentLevelText.text = data.currentPlayingLevel.ToString();
+        }
+
+        // Lấy Sprite nhân vật từ SpriteManager
+        if (currentCharacterSkinImage != null && SpriteManager.Ins != null)
+        {
+            int charIndex = data.currentCharacterSkinIndex;
+            if (charIndex >= 0 && charIndex < SpriteManager.Ins.playerSkinSprites.Length)
+            {
+                currentCharacterSkinImage.sprite = SpriteManager.Ins.playerSkinSprites[charIndex];
+                currentCharacterSkinImage.SetNativeSize(); 
+            }
+        }
+
+        // Lấy Sprite Map từ SpriteManager
+        if (currentMapSkinImage != null && SpriteManager.Ins != null)
+        {
+            int mapIndex = data.currentMapSkinIndex;
+            if (mapIndex >= 0 && mapIndex < SpriteManager.Ins.mapSkinSprites.Length)
+            {
+                currentMapSkinImage.sprite = SpriteManager.Ins.mapSkinSprites[mapIndex];
+                // currentMapSkinImage.SetNativeSize(); 
+            }
         }
     }
 
-    // Hàm xử lý tuần tự luồng UI Đăng xuất
     private async void OnLogoutClicked()
     {
-        // 1. Chuyển sang màn hình Loading ngay lập tức
         MenuUIManager.Instance.ShowLoading();
-
-        // 2. Gọi lệnh cắt đứt kết nối tài khoản ở DataSyncManager
         DataSyncManager.Instance.Logout();
-
-        // 3. Đợi 0.5 giây để tạo cảm giác hệ thống đang xử lý và xóa dữ liệu mượt mà
         await Task.Delay(500); 
-
-        // 4. Quay về màn hình bắt đầu có 3 nút (Tiếp tục, Đăng nhập, Đăng ký)
         MenuUIManager.Instance.ShowStartLogIn();
     }
 }

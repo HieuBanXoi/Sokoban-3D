@@ -6,7 +6,7 @@ public class TutorialController : Ply_Singleton<TutorialController>
 {
     [Header("Tutorial Settings")]
     public float stepPause = 0.05f; 
-    public float fallWaitTime = 0.5f; // Thời gian chờ hộp rơi xong khi reset map
+    public float fallWaitTime = 1f; // Thời gian chờ hộp rơi xong khi reset map
 
     // Cấu trúc lưu trữ dữ liệu từng bước đi
     private struct StepData {
@@ -30,7 +30,11 @@ public class TutorialController : Ply_Singleton<TutorialController>
             return 0;
         }
     }
-
+    public override void Awake()
+    {
+        base.Awake();
+        fallWaitTime = 1f;
+    }
     /// <summary>
     /// Khởi tạo danh sách bước đi từ chuỗi Solution của Level
     /// </summary>

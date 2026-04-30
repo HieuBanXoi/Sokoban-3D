@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 public class GameplayUIManager : Ply_Singleton<GameplayUIManager>
 {
+    [Header("Gameplay Info")]
+    public TextMeshProUGUI currentLevelText;
 
     [Header("Gameplay Buttons")]
     public Button solveBtn;
@@ -40,6 +42,10 @@ public class GameplayUIManager : Ply_Singleton<GameplayUIManager>
         // 2. LOGIC NÚT SOLVE (Chỉ mở khi level đã Complete)
         var data = DataSyncManager.Instance.gameDataSO.data;
         int currentLevelIndex = data.currentPlayingLevel;
+        if (currentLevelText != null)
+        {
+            currentLevelText.text = "Level " + currentLevelIndex.ToString();
+        }
         LevelStatus currentStatus = data.levels.Find(l => l.levelIndex == currentLevelIndex);
         
         if (currentStatus != null && currentStatus.isCompleted)
@@ -202,7 +208,7 @@ public class GameplayUIManager : Ply_Singleton<GameplayUIManager>
         }
     }
 
-    private void ShowLoading(bool isShow)
+    public void ShowLoading(bool isShow)
     {
         if (loadingPanel != null) loadingPanel.SetActive(isShow);
     }

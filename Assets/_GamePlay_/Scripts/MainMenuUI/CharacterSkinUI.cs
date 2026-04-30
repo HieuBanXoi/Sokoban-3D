@@ -5,9 +5,6 @@ using System.Collections;
 
 public class CharacterSkinUI : MonoBehaviour
 {
-    [Header("Sprites Data")]
-    public Sprite[] allSkinSprites; // Kéo thả 10 ảnh skin vào đây
-
     [Header("UI Display")]
     public Image skinDisplayImage;      
     public TextMeshProUGUI skinNameText; 
@@ -30,9 +27,9 @@ public class CharacterSkinUI : MonoBehaviour
     public Image equipBtnImage;
     
     [Header("Button Sprites")]
-    public Sprite btnCanPressSprite;   // Sprite khi nút có thể bấm
-    public Sprite btnDisabledSprite;   // Sprite khi nút bị khóa/vô hiệu hóa
-    public Sprite btnEquippedSprite;   // Sprite khi đã trang bị (Equipped)
+    public Sprite btnCanPressSprite;   
+    public Sprite btnDisabledSprite;   
+    public Sprite btnEquippedSprite;   
 
     [Header("Common")]
     public Button backBtn;
@@ -43,10 +40,8 @@ public class CharacterSkinUI : MonoBehaviour
     {
         leftArrowBtn.onClick.AddListener(() => ChangeView(-1));
         rightArrowBtn.onClick.AddListener(() => ChangeView(1));
-        
         unlockBtn.onClick.AddListener(OnUnlockClicked);
         equipBtn.onClick.AddListener(OnEquipClicked);
-        
         backBtn.onClick.AddListener(() => MenuUIManager.Instance.ShowDashboard());
         
         if (errorMsgText != null) errorMsgText.gameObject.SetActive(false);
@@ -63,11 +58,13 @@ public class CharacterSkinUI : MonoBehaviour
 
     private void ChangeView(int dir)
     {
-        if (allSkinSprites.Length == 0) return;
+        if (SpriteManager.Ins == null || SpriteManager.Ins.playerSkinSprites.Length == 0) return;
+        
         viewIndex += dir;
+        int totalSkins = SpriteManager.Ins.playerSkinSprites.Length;
 
-        if (viewIndex < 0) viewIndex = allSkinSprites.Length - 1;
-        if (viewIndex >= allSkinSprites.Length) viewIndex = 0;
+        if (viewIndex < 0) viewIndex = totalSkins - 1;
+        if (viewIndex >= totalSkins) viewIndex = 0;
 
         if (errorMsgText != null) errorMsgText.gameObject.SetActive(false);
         UpdateUI();
@@ -75,21 +72,20 @@ public class CharacterSkinUI : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (DataSyncManager.Instance == null || allSkinSprites.Length == 0) return;
+        if (DataSyncManager.Instance == null || SpriteManager.Ins == null || SpriteManager.Ins.playerSkinSprites.Length == 0) return;
 
         var data = DataSyncManager.Instance.gameDataSO.data;
         bool isUnlocked = (viewIndex < data.characterSkins.Count) && data.characterSkins[viewIndex].isUnlocked;
         bool isEquipped = (data.currentCharacterSkinIndex == viewIndex);
 
-        // 1. Hiển thị Skin và Tên
-        skinNameText.text = allSkinSprites[viewIndex].name;
-        skinDisplayImage.sprite = allSkinSprites[viewIndex];
+        // Lấy Sprite từ SpriteManager
+        Sprite currentSprite = SpriteManager.Ins.playerSkinSprites[viewIndex];
+
+        skinNameText.text = currentSprite.name;
+        skinDisplayImage.sprite = currentSprite;
         skinDisplayImage.SetNativeSize();
-        
-        // Chỉnh màu đen cho skin chưa mở khóa thay vì dùng sprite riêng
         skinDisplayImage.color = isUnlocked ? Color.white : Color.black;
 
-        // 2. Logic Nút Unlock
         if (isUnlocked)
         {
             unlockBtnText.text = "Unlocked";
@@ -103,11 +99,10 @@ public class CharacterSkinUI : MonoBehaviour
             unlockBtnImage.sprite = unlockBtn.interactable ? btnCanPressSprite : btnDisabledSprite;
         }
 
-        // 3. Logic Nút Equip
         if (!isUnlocked)
         {
             equipBtnText.text = "Equip";
-            equipBtn.interactable = false; // Chưa unlock thì không thể equip
+            equipBtn.interactable = false; 
             equipBtnImage.sprite = btnDisabledSprite;
         }
         else if (isEquipped)
@@ -123,7 +118,6 @@ public class CharacterSkinUI : MonoBehaviour
             equipBtnImage.sprite = btnCanPressSprite;
         }
 
-        // 4. Cập nhật Coin
         coinText.text = data.coins.ToString();
     }
 
@@ -135,7 +129,6 @@ public class CharacterSkinUI : MonoBehaviour
         {
             data.coins -= UNLOCK_PRICE;
             data.characterSkins[viewIndex].isUnlocked = true;
-            
             _ = DataSyncManager.Instance.SaveGameGlobal();
             UpdateUI();
         }
@@ -150,7 +143,6 @@ public class CharacterSkinUI : MonoBehaviour
     {
         var data = DataSyncManager.Instance.gameDataSO.data;
         data.currentCharacterSkinIndex = viewIndex;
-        
         _ = DataSyncManager.Instance.SaveGameGlobal();
         UpdateUI();
     }

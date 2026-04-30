@@ -13,11 +13,187 @@ MonoBehaviour:
   m_Name: GameDataSO
   m_EditorClassIdentifier: Assembly-CSharp::GameDataSO
   data:
-    coins: 0
-    currentCharacterSkinIndex: 0
-    currentMapSkinIndex: 0
-    currentPlayingLevel: 1
-    characterSkins: []
-    mapSkins: []
-    levels: []
-    lastSaveTime: 639129436519768988
+    coins: 100
+    currentCharacterSkinIndex: 5
+    currentMapSkinIndex: 1
+    currentPlayingLevel: 19
+    characterSkins:
+    - skinID: CharSkin_0
+      isUnlocked: 1
+    - skinID: CharSkin_1
+      isUnlocked: 1
+    - skinID: CharSkin_2
+      isUnlocked: 1
+    - skinID: CharSkin_3
+      isUnlocked: 1
+    - skinID: CharSkin_4
+      isUnlocked: 0
+    - skinID: CharSkin_5
+      isUnlocked: 1
+    - skinID: CharSkin_6
+      isUnlocked: 1
+    - skinID: CharSkin_7
+      isUnlocked: 1
+    - skinID: CharSkin_8
+      isUnlocked: 1
+    - skinID: CharSkin_9
+      isUnlocked: 1
+    mapSkins:
+    - skinID: MapSkin_0
+      isUnlocked: 1
+    - skinID: MapSkin_1
+      isUnlocked: 1
+    - skinID: MapSkin_2
+      isUnlocked: 1
+    levels:
+    - levelIndex: 1
+      isUnlocked: 1
+      isCompleted: 1
+    - levelIndex: 2
+      isUnlocked: 1
+      isCompleted: 1
+    - levelIndex: 3
+      isUnlocked: 1
+      isCompleted: 1
+    - levelIndex: 4
+      isUnlocked: 1
+      isCompleted: 1
+    - levelIndex: 5
+      isUnlocked: 1
+      isCompleted: 1
+    - levelIndex: 6
+      isUnlocked: 1
+      isCompleted: 1
+    - levelIndex: 7
+      isUnlocked: 1
+      isCompleted: 1
+    - levelIndex: 8
+      isUnlocked: 1
+      isCompleted: 0
+    - levelIndex: 9
+      isUnlocked: 1
+      isCompleted: 0
+    - levelIndex: 10
+      isUnlocked: 1
+      isCompleted: 1
+    - levelIndex: 11
+      isUnlocked: 1
+      isCompleted: 0
+    - levelIndex: 12
+      isUnlocked: 1
+      isCompleted: 0
+    - levelIndex: 13
+      isUnlocked: 1
+      isCompleted: 1
+    - levelIndex: 14
+      isUnlocked: 1
+      isCompleted: 0
+    - levelIndex: 15
+      isUnlocked: 1
+      isCompleted: 0
+    - levelIndex: 16
+      isUnlocked: 1
+      isCompleted: 0
+    - levelIndex: 17
+      isUnlocked: 1
+      isCompleted: 0
+    - levelIndex: 18
+      isUnlocked: 1
+      isCompleted: 0
+    - levelIndex: 19
+      isUnlocked: 1
+      isCompleted: 0
+    - levelIndex: 20
+      isUnlocked: 1
+      isCompleted: 0
+    - levelIndex: 21
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 22
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 23
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 24
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 25
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 26
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 27
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 28
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 29
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 30
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 31
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 32
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 33
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 34
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 35
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 36
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 37
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 38
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 39
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 40
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 41
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 42
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 43
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 44
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 45
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 46
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 47
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 48
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 49
+      isUnlocked: 0
+      isCompleted: 0
+    - levelIndex: 50
+      isUnlocked: 0
+      isCompleted: 0
+    lastSaveTime: 639131554488018492
