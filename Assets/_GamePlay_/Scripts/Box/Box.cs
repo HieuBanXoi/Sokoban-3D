@@ -166,6 +166,7 @@ public class Box : Ply_GameUnit
             {
                 if (!box.isOnGoal) return;
             }
+            GameManager.Ins.isPlaying = false; // Chặn input ngay lập tức khi phát hiện chiến thắng
             GameManager.Ins.player.movement.animator.SetBool("isCheering", true);
             // Nếu đến đây, tất cả hộp đều trên đích
             Sequence seq = DOTween.Sequence();

@@ -83,29 +83,27 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
         }
 
         levelIdToLoad = levelId;
-        string resourcePath = $"_GamePlay_/Level/level_{levelId:0000}"; // Resources path without extension
+        
+        // 1. Vì file nằm trực tiếp trong Assets/Resources, ta chỉ cần gọi đúng tên file (KHÔNG kèm đuôi .json hay .txt)
+        string resourcePath = $"level_{levelId:0000}"; 
         string json = null;
 
+        // 2. Load file map thông qua hệ thống Resources của Unity (Chuẩn và an toàn cho Mobile)
         TextAsset ta = Resources.Load<TextAsset>(resourcePath);
+        
         if (ta != null)
         {
             json = ta.text;
         }
-        else
-        {
-            string filePath = Path.Combine(Application.dataPath, "_GamePlay_", "Level", $"level_{levelId:0000}.json");
-            if (File.Exists(filePath))
-            {
-                json = File.ReadAllText(filePath);
-            }
-        }
 
+        // 3. Xử lý khi không tìm thấy map (Bỏ hẳn đoạn dùng Application.dataPath gây lỗi)
         if (string.IsNullOrEmpty(json))
         {
-            Debug.LogError($"Không tìm thấy file level cho id={levelId}. Hãy đặt file dưới Resources/_GamePlay_/Level hoặc Assets/_GamePlay_/Level.");
+            Debug.LogError($"[LevelGenerator] LỖI: Không tìm thấy file map '{resourcePath}' trong thư mục Resources! Kiểm tra lại tên file hoặc định dạng.");
             return;
         }
 
+        // 4. Sinh map
         GenerateMapFromJson(json);
     }
 
@@ -176,13 +174,8 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
             }
         }
 
-        // Invoke(nameof(StartTutorialFromCurrentSolution), 1f); // Đợi một frame để đảm bảo mọi thứ đã khởi tạo xong rồi mới bắt đầu tutorial
         TutorialController.Ins.StartTutorialFromCurrentSolution();
-        Debug.Log($"Sinh map thành công! Solution: {currentSolution}");
-    }
-    private void StartTutorialFromCurrentSolution()
-    {
-        TutorialController.Ins.StartTutorialFromCurrentSolution();
+        
     }
     private void SpawnCell(int value, Vector3 position)
     {

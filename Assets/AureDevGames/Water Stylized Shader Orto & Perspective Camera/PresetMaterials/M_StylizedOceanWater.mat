@@ -153,6 +153,7 @@ Material:
     - _WaveSteepness: 3.5
     - _WaveStepness: 0.35
     - _WaveTileSize: 1.98
+    - _XRMotionVectorsPass: 1
     m_Colors:
     - _BaseColor: {r: 0, g: 0.1989687, b: 1.110646, a: 1}
     - _CaveColor: {r: 0.21881218, g: 0.21216798, b: 0.4867924, a: 0.41960785}

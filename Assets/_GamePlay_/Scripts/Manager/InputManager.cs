@@ -26,8 +26,24 @@ public class InputManager : Ply_Singleton<InputManager>
     }
 
     // CÁC HÀM NÀY DÙNG ĐỂ GẮN VÀO BUTTON TRÊN ĐIỆN THOẠI (UI)
-    public void MoveUp() => player.movement.AttemptMove(Vector3.forward);
-    public void MoveDown() => player.movement.AttemptMove(Vector3.back);
-    public void MoveLeft() => player.movement.AttemptMove(Vector3.left);
-    public void MoveRight() => player.movement.AttemptMove(Vector3.right);
+    public void MoveUp()
+    {
+        if (!GameManager.Ins.isPlaying) return;
+        player.movement.AttemptMove(Vector3.forward);
+    }
+    public void MoveDown()
+    {
+        if (!GameManager.Ins.isPlaying) return;
+        player.movement.AttemptMove(Vector3.back);
+    }
+    public void MoveLeft()
+    {
+        if (!GameManager.Ins.isPlaying) return;
+        player.movement.AttemptMove(Vector3.left);
+    }
+    public void MoveRight()
+    {
+        if (!GameManager.Ins.isPlaying) return;
+        player.movement.AttemptMove(Vector3.right);
+    }
 }

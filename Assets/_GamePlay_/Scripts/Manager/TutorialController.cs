@@ -113,14 +113,17 @@ public class TutorialController : Ply_Singleton<TutorialController>
 
     private IEnumerator PlayAllRoutine()
     {
+        GameManager.Ins.isPlaying = false;
         yield return Yielders.Get(fallWaitTime);
         // Chế độ giải hết: truyền -1 để không giới hạn số thùng đẩy
         yield return StartCoroutine(CorePlayRoutine(-1));
         playRoutine = null;
+        GameManager.Ins.isPlaying = true;
     }
 
     private IEnumerator HintRoutine()
     {
+        GameManager.Ins.isPlaying = false;
         // 1. Tăng giới hạn đẩy thùng cho lần gợi ý này
         hintPushLimit++;
 
@@ -134,6 +137,7 @@ public class TutorialController : Ply_Singleton<TutorialController>
         yield return StartCoroutine(CorePlayRoutine(hintPushLimit));
         isHintModeActive = false;
         playRoutine = null;
+        GameManager.Ins.isPlaying = true;
     }
 
     private IEnumerator CorePlayRoutine(int targetPushLimit)

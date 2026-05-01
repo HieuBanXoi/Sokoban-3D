@@ -38,7 +38,7 @@ public class GameplayUIManager : Ply_Singleton<GameplayUIManager>
     {
         // 1. GÁN SỰ KIỆN CƠ BẢN
         undoBtn.onClick.AddListener(() => CommandManager.Ins.Undo());
-        reloadBtn.onClick.AddListener(() => LevelGenerator.Ins.GenerateMapByLevel(LevelGenerator.Ins.levelIdToLoad));
+        reloadBtn.onClick.AddListener(OnClickReload);
         settingBtn.onClick.AddListener(() => settingPanel.SetActive(true));
 
         // 2. LOGIC NÚT SOLVE (Chỉ mở khi level đã Complete)
@@ -70,7 +70,11 @@ public class GameplayUIManager : Ply_Singleton<GameplayUIManager>
 
         UpdateCoinDisplay();
     }
-
+    private void OnClickReload()
+    {
+        if(!GameManager.Ins.isPlaying) return;
+        LevelGenerator.Ins.GenerateMapByLevel(LevelGenerator.Ins.levelIdToLoad);
+    }
     private async void OnHintClicked()
     {
         var data = DataSyncManager.Instance.gameDataSO.data;

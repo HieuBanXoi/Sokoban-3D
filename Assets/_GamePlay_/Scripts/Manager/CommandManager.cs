@@ -26,6 +26,7 @@ public class CommandManager : Ply_Singleton<CommandManager>
 
     public void Undo()
     {
+        if(!GameManager.Ins.isPlaying) return;
         if (!CanUndo())
         {
             Debug.LogWarning("CommandManager: Không có nước đi nào để Undo!");
