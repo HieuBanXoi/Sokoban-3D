@@ -45,7 +45,18 @@ public class LevelSelectUI : MonoBehaviour
         rightArrowBtn.onClick.AddListener(() => ChangePage(1));
         
         playBtn.onClick.AddListener(OnPlayClicked);
-        backBtn.onClick.AddListener(() => MenuUIManager.Instance.ShowDashboard());
+        backBtn.onClick.AddListener(async () => 
+        {
+            if (DataSyncManager.Instance != null && DataSyncManager.Instance.gameDataSO != null)
+            {
+                // Cập nhật level đang chọn vào data tổng
+                DataSyncManager.Instance.gameDataSO.data.currentPlayingLevel = tempSelectedLevel;
+                // Lưu lại (Bạn có thể bỏ qua await nếu không muốn UI chờ đợi việc lưu cloud)
+                _ = DataSyncManager.Instance.SaveGameGlobal();
+            }
+            
+            MenuUIManager.Instance.ShowDashboard();
+        });
     }
 
     private void OnEnable()

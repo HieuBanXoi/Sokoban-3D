@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
     private void PerformDOTweenMove(Vector3 targetPlayerPos, Transform boxTransform, Vector3 targetBoxPos)
     {
         isMoving = true;
-        
+        Ply_SoundManager.Ins.PlayFx(FxType.Pop); // Phát âm thanh bước chân (hoặc đẩy hộp)
         // Bật animation
         if (animator != null) 
         {

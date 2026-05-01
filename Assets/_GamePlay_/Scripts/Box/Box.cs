@@ -15,8 +15,15 @@ public class Box : Ply_GameUnit
 
     public void Despawn()
     {
-        isOnGoal = false;
+        ResetState();
         Ply_Pool.Ins.Despawn(PoolType.Box, this);
+    }
+    public void ResetState()
+    {
+        isOnGoal = false;
+        transform.position = Vector3.one;
+        transform.rotation = Quaternion.identity;
+        transform.localScale = Vector3.one;
     }
     public void SnapToGround(LayerMask groundLayer)
     {
@@ -159,16 +166,64 @@ public class Box : Ply_GameUnit
             {
                 if (!box.isOnGoal) return;
             }
+            GameManager.Ins.player.movement.animator.SetBool("isCheering", true);
             // Nếu đến đây, tất cả hộp đều trên đích
-            if (GameplayUIManager.Ins != null)
+            Sequence seq = DOTween.Sequence();
+
+            float flyDuration = 0.5f;   // Thời gian bay lên
+            float flyHeight = 3f;       // Độ cao bay lên
+            float shrinkDuration = 0.2f;// Thời gian thu nhỏ
+            float staggerTime = 0.15f;  // Độ trễ giữa các hộp nổ (bay lên lần lượt)
+            float delayBeforeWin = 1.0f;// Khoảng thời gian đợi sau khi toàn bộ hiệu ứng xong
+
+            for (int i = 0; i < boxes.Length; i++)
             {
-                GameplayUIManager.Ins.OnLevelCompleted();
+                Box box = boxes[i];
+                float startTime = i * staggerTime; // Tính toán thời điểm bắt đầu của hộp này
+
+                // 1. Bay lên cao
+                seq.Insert(startTime, box.transform.DOMoveY(box.transform.position.y + flyHeight, flyDuration).SetEase(Ease.OutQuad));
+
+                // 2. Vừa bay vừa xoay 360 độ
+                seq.Insert(startTime, box.transform.DORotate(new Vector3(0, 360, 0), flyDuration, RotateMode.FastBeyond360).SetRelative().SetEase(Ease.OutQuad));
+
+                // Tính thời điểm hộp bay đến đỉnh
+                float apexTime = startTime + flyDuration;
+
+                // 3. Đến đỉnh thì thu nhỏ dần biến mất
+                seq.Insert(apexTime, box.transform.DOScale(Vector3.zero, shrinkDuration).SetEase(Ease.InBack));
+
+                // 4. Cũng tại đỉnh, sinh ra hiệu ứng Effect
+                seq.InsertCallback(apexTime, () =>
+                {
+                    Ply_SoundManager.Ins.PlayFx(FxType.DoneEffect); // Phát âm thanh chiến thắng
+                    // Truyền vị trí hiện tại của box (lúc này đang ở trên không)
+                    SpawnEffect(box.transform.position); 
+                });
             }
-            else
+
+            // Đợi thêm một khoảng thời gian sau khi toàn bộ Sequence chạy xong
+            seq.AppendInterval(delayBeforeWin);
+
+            // Khi toàn bộ mọi thứ kết thúc, mới gọi UI Win
+            seq.OnComplete(() =>
             {
-                Debug.Log("Level Completed! (No UI Manager found)");
-            }
+                if (GameplayUIManager.Ins != null)
+                {
+                    Ply_SoundManager.Ins.PlayFx(FxType.Win);
+                    GameplayUIManager.Ins.OnLevelCompleted();
+                }
+                else
+                {
+                    Debug.Log("Level Completed! (No UI Manager found)");
+                }
+            });
         }
+    }
+    public void SpawnEffect(Vector3 position)
+    {
+        MergeEffect effect = Ply_Pool.Ins.Spawn<MergeEffect>(PoolType.MergeVFX, position, Quaternion.identity);
+        effect.DeSpawnByTime();
     }
 }
 

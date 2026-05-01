@@ -148,7 +148,7 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
 
                     // Lớp trên: player
                     Vector3 layer1Pos = pos + Vector3.up * gridSize;
-                    spawnedPlayerComp = Ply_Pool.Ins.Spawn<Player>(PoolType.Player, layer1Pos+playerSpawnOffset, Quaternion.identity);
+                    spawnedPlayerComp = Ply_Pool.Ins.Spawn<Player>(PoolType.Player, layer1Pos+playerSpawnOffset, new Quaternion(0, 180, 0, 1)); // Quay mặt player về hướng camera
                     spawnedPlayerComp.graphic.ApplySkin(); // Áp skin sau khi spawn để tránh lỗi mất mesh
                     spawnedPlayerComp.transform.SetParent(levelContainer); // Gắn player ra ngoài _mapContainer để dễ quản lý riêng
                 }

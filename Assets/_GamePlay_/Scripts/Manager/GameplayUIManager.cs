@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 using System.Threading.Tasks;
 
 public class GameplayUIManager : Ply_Singleton<GameplayUIManager>
@@ -19,6 +20,7 @@ public class GameplayUIManager : Ply_Singleton<GameplayUIManager>
     [Header("Panels")]
     public GameObject settingPanel;
     public GameObject levelCompletePanel; // Panel hiện ra khi thắng
+    public Transform levelCompleteTf;   // Transform của panel chiến thắng (dùng để scale hiệu ứng)
     public GameObject loadingPanel;       // Panel loading (Nên có một ảnh nền đen trong suốt và xoay vòng loading)
 
     [Header("Win UI Elements")]
@@ -97,8 +99,10 @@ public class GameplayUIManager : Ply_Singleton<GameplayUIManager>
     {
         if (isLevelWon) return; // Chặn nếu 2 hộp cùng vào đích 1 lúc
         isLevelWon = true;
-
-        ShowLoading(true);
+        // Hiện bảng chiến thắng
+        levelCompleteTf.localScale = Vector3.zero; // Bắt đầu từ scale 0
+        levelCompletePanel.SetActive(true);
+        levelCompleteTf.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack); // Scale lên với hiệu ứng
 
         var data = DataSyncManager.Instance.gameDataSO.data;
         int currentLevelIndex = data.currentPlayingLevel;
@@ -155,10 +159,8 @@ public class GameplayUIManager : Ply_Singleton<GameplayUIManager>
         }
 
         UpdateCoinDisplay();
-        ShowLoading(false);
         
-        // Hiện bảng chiến thắng
-        levelCompletePanel.SetActive(true);
+        
     }
 
     // --- CÁC NÚT TRONG BẢNG WIN ---

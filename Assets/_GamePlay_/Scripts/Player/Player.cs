@@ -8,6 +8,7 @@ public class Player : Ply_GameUnit
 
     public void Despawn()
     {
+        movement.animator.SetBool("isCheering", false);
         Ply_Pool.Ins.Despawn(PoolType.Player, this);
     }
 

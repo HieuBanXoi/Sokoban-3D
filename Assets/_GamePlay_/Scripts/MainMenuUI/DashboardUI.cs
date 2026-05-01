@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Threading.Tasks; 
+using UnityEngine.SceneManagement;
 
 public class DashboardUI : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class DashboardUI : MonoBehaviour
     public Image currentMapSkinImage;
 
     [Header("Navigation Buttons")]
+    public Button playBtn;
     public Button selectLevelBtn;
     public Button selectSkinBtn;
     public Button selectMapSkinBtn;
@@ -19,13 +21,24 @@ public class DashboardUI : MonoBehaviour
 
     private void Start()
     {
+        playBtn.onClick.AddListener(OnPlayClicked);
         selectLevelBtn.onClick.AddListener(() => MenuUIManager.Instance.ShowLevelSelect());
         selectSkinBtn.onClick.AddListener(() => MenuUIManager.Instance.ShowSkinSelect());
         selectMapSkinBtn.onClick.AddListener(() => MenuUIManager.Instance.ShowMapSkinSelect());
         
         logoutBtn.onClick.AddListener(OnLogoutClicked);
     }
+    private void OnPlayClicked()
+    {
+        // Hiển thị màn hình Loading (nếu có)
+        if (MenuUIManager.Instance != null)
+        {
+            MenuUIManager.Instance.ShowLoading();
+        }
 
+        // Load Scene Gameplay (dựa vào các script trước, scene này tên là "MainScene")
+        SceneManager.LoadScene("MainScene"); 
+    }
     private void OnEnable()
     {
         UpdateDashboardInfo(); 
