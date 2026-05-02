@@ -127,6 +127,7 @@ public class CharacterSkinUI : MonoBehaviour
 
         if (data.coins >= UNLOCK_PRICE)
         {
+            Ply_SoundManager.Ins.PlayFx(FxType.Coin);
             data.coins -= UNLOCK_PRICE;
             data.characterSkins[viewIndex].isUnlocked = true;
             _ = DataSyncManager.Instance.SaveGameGlobal();

@@ -47,6 +47,7 @@ public class MapSkinUI : MonoBehaviour
 
     private void OnEnable()
     {
+        errorMsgText.gameObject.SetActive(false);
         RefreshUI();
     }
 
@@ -73,6 +74,7 @@ public class MapSkinUI : MonoBehaviour
                     data.currentMapSkinIndex = index; 
                     _ = DataSyncManager.Instance.SaveGameGlobal();
                     RefreshUI();
+                    Ply_SoundManager.Ins.PlayFx(FxType.Coin);
                 }
                 else
                 {

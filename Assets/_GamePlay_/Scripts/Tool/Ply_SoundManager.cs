@@ -5,6 +5,8 @@ public enum FxType
     Pop = 0,
     Win = 1,
     DoneEffect = 2,
+    Click = 3,
+    Coin = 4
 
 }
 
