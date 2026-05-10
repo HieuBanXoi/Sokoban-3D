@@ -24,8 +24,8 @@ public class MoveCommand : ICommand
 
         if (pushedBox != null)
         {
-            this.boxTransform = pushedBox.transform;
-            this.boxStartPos = pushedBox.transform.position;
+            this.boxTransform = pushedBox.tf;
+            this.boxStartPos = pushedBox.tf.position;
         }
     }
 

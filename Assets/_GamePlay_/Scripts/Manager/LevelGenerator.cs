@@ -32,7 +32,7 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
 {
     [Header("Data Input")]
     public int levelIdToLoad = 1; // Nếu muốn load theo id thay vì gán file trực tiếp, điền id vào đây và gọi GenerateMapByLevel(levelIdToLoad)
-    [ReadOnly] public string currentSolution; // Lưu solution để check sau này
+    // Solution moved to TutorialController to avoid cross-dependency
 
     [Header("Environment Setup (2x2x2)")]
     public float gridSize = 2f; // Kích thước cube
@@ -115,7 +115,11 @@ public class LevelGenerator : Ply_Singleton<LevelGenerator>
 
         // 1. Parse JSON dùng Newtonsoft
         LevelData data = JsonConvert.DeserializeObject<LevelData>(json);
-        currentSolution = data.solution; // Lưu lại chuỗi hướng dẫn giải
+        // Pass solution to TutorialController to avoid LevelGenerator exposing gameplay state
+        if (TutorialController.Ins != null)
+        {
+            TutorialController.Ins.currentSolution = data.solution;
+        }
 
         // Tạo một folder trống để gom gọn rác trong Hierarchy
         if(_mapContainer == null)

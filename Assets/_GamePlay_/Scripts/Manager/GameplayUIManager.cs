@@ -72,7 +72,7 @@ public class GameplayUIManager : Ply_Singleton<GameplayUIManager>
     }
     private void OnClickReload()
     {
-        if(!GameManager.Ins.isPlaying) return;
+        if(!GameManager.Ins.IsInputEnabled) return;
         LevelGenerator.Ins.GenerateMapByLevel(LevelGenerator.Ins.levelIdToLoad);
     }
     private async void OnHintClicked()
@@ -163,6 +163,13 @@ public class GameplayUIManager : Ply_Singleton<GameplayUIManager>
         }
 
         UpdateCoinDisplay();
+        // Disable nextLevel button if next level is not unlocked
+        if (nextLevelBtn != null)
+        {
+            int nextLevel = currentLevelIndex + 1;
+            LevelStatus nextStatus = data.levels.Find(l => l.levelIndex == nextLevel);
+            nextLevelBtn.interactable = (nextStatus != null && nextStatus.isUnlocked);
+        }
         
         
     }

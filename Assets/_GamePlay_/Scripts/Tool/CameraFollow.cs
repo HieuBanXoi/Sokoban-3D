@@ -56,12 +56,12 @@ public class CameraFollow : MonoBehaviour
             if (dir.magnitude < 0.001f) dir = Vector3.up + Vector3.back;
 
             Vector3 desiredPosition = center + dir * dist;
-            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-            transform.position = smoothedPosition;
+            Vector3 smoothedPosition = Vector3.Lerp(_tf.position, desiredPosition, smoothSpeed);
+            _tf.position = smoothedPosition;
 
             if (lookAtTarget)
             {
-                transform.LookAt(center);
+                _tf.LookAt(center);
             }
 
             return;
@@ -74,15 +74,21 @@ public class CameraFollow : MonoBehaviour
         Vector3 desiredPositionTarget = target.position + offset;
 
         // 2. Dùng Vector3.Lerp để nội suy khoảng cách, tạo hiệu ứng bám theo mượt mà (smooth)
-        Vector3 smoothedPositionTarget = Vector3.Lerp(transform.position, desiredPositionTarget, smoothSpeed);
+        Vector3 smoothedPositionTarget = Vector3.Lerp(_tf.position, desiredPositionTarget, smoothSpeed);
         
         // 3. Gán vị trí mới cho Camera
-        transform.position = smoothedPositionTarget;
+        _tf.position = smoothedPositionTarget;
 
         // 4. (Tuỳ chọn) Ép góc xoay của camera luôn hướng về phía nhân vật
         if (lookAtTarget)
         {
-            transform.LookAt(target);
+            _tf.LookAt(target);
         }
+    }
+
+    private Transform _tf;
+    private void Awake()
+    {
+        _tf = transform;
     }
 }

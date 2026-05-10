@@ -21,14 +21,14 @@ public class Box : Ply_GameUnit
     public void ResetState()
     {
         isOnGoal = false;
-        transform.position = Vector3.one;
-        transform.rotation = Quaternion.identity;
-        transform.localScale = Vector3.one;
+        tf.position = Vector3.one;
+        tf.rotation = Quaternion.identity;
+        tf.localScale = Vector3.one;
     }
     public void SnapToGround(LayerMask groundLayer)
     {
 
-        Vector3 origin = transform.position + Vector3.up * 1f;
+        Vector3 origin = tf.position + Vector3.up * 1f;
         float maxDist = 6f;
 
         RaycastHit hit;
@@ -48,9 +48,9 @@ public class Box : Ply_GameUnit
         if (gotHit)
         {
             
-            Vector3 target = new Vector3(hit.transform.position.x, transform.position.y, hit.transform.position.z);
+            Vector3 target = new Vector3(hit.transform.position.x, tf.position.y, hit.transform.position.z);
             float duration = 0.12f;
-            transform.DOMove(target, duration).OnComplete(() =>
+            tf.DOMove(target, duration).OnComplete(() =>
             {
                 CheckOnGoal();
             });
@@ -60,7 +60,7 @@ public class Box : Ply_GameUnit
     // Overload with completion callback
     public void SnapToGround(LayerMask groundLayer, System.Action onComplete)
     {
-        Vector3 origin = transform.position + Vector3.up * 1f;
+        Vector3 origin = tf.position + Vector3.up * 1f;
         float maxDist = 6f;
 
         RaycastHit hit;
@@ -78,9 +78,9 @@ public class Box : Ply_GameUnit
 
         if (gotHit)
         {
-            Vector3 target = new Vector3(hit.transform.position.x, transform.position.y, hit.transform.position.z);
+            Vector3 target = new Vector3(hit.transform.position.x, tf.position.y, hit.transform.position.z);
             float duration = 0.12f;
-            transform.DOMove(target, duration).OnComplete(() =>
+            tf.DOMove(target, duration).OnComplete(() =>
             {
                 onComplete?.Invoke();
             });
@@ -96,7 +96,7 @@ public class Box : Ply_GameUnit
     public void IceSlide(Vector3 dir, int obstacleMask, LayerMask groundLayer)
     {
         if (dir.sqrMagnitude < 0.001f) return;
-        Vector3 origin = transform.position + Vector3.up * 0.5f;
+        Vector3 origin = tf.position + Vector3.up * 0.5f;
         RaycastHit hit;
         float maxDist = 200f;
 
@@ -111,10 +111,10 @@ public class Box : Ply_GameUnit
         Vector3 dirNorm = dir.normalized;
         Debug.Log($"Hit wall at {hitPoint}, dirNorm={dirNorm}");
 
-        Vector3 target = new Vector3(hitPoint.x - dirNorm.x, transform.position.y, hitPoint.z - dirNorm.z);
+        Vector3 target = new Vector3(hitPoint.x - dirNorm.x, tf.position.y, hitPoint.z - dirNorm.z);
         Debug.Log(target);
 
-        float dist = Vector3.Distance(transform.position, target);
+        float dist = Vector3.Distance(tf.position, target);
         // if (dist <= 0.01f)
         // {
         //     // already there
@@ -124,7 +124,7 @@ public class Box : Ply_GameUnit
 
 
         float duration = Mathf.Max(0.05f, dist / Mathf.Max(0.0001f, slideSpeed));
-        transform.DOMove(target, duration).OnComplete(() =>
+        tf.DOMove(target, duration).OnComplete(() =>
         {
             SnapToGround(groundLayer);
         });
@@ -147,7 +147,7 @@ public class Box : Ply_GameUnit
     }
     public void CheckOnGoal()
     {
-        if(Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out RaycastHit hit, 1f, InputManager.Ins.groundLayerMask))
+        if(Physics.Raycast(tf.position + Vector3.up * 0.5f, Vector3.down, out RaycastHit hit, 1f, InputManager.Ins.groundLayerMask))
         {
             Ground ground = ComponentCache<Ground>.Get(hit.collider);
             if (ground != null)
@@ -166,7 +166,7 @@ public class Box : Ply_GameUnit
             {
                 if (!box.isOnGoal) return;
             }
-            GameManager.Ins.isPlaying = false; // Chặn input ngay lập tức khi phát hiện chiến thắng
+            GameManager.Ins.SetState(GameManager.GameState.Win); // Chặn input ngay lập tức khi phát hiện chiến thắng
             GameManager.Ins.player.movement.animator.SetBool("isCheering", true);
             // Nếu đến đây, tất cả hộp đều trên đích
             Sequence seq = DOTween.Sequence();
@@ -183,23 +183,23 @@ public class Box : Ply_GameUnit
                 float startTime = i * staggerTime; // Tính toán thời điểm bắt đầu của hộp này
 
                 // 1. Bay lên cao
-                seq.Insert(startTime, box.transform.DOMoveY(box.transform.position.y + flyHeight, flyDuration).SetEase(Ease.OutQuad));
+                seq.Insert(startTime, box.tf.DOMoveY(box.tf.position.y + flyHeight, flyDuration).SetEase(Ease.OutQuad));
 
                 // 2. Vừa bay vừa xoay 360 độ
-                seq.Insert(startTime, box.transform.DORotate(new Vector3(0, 360, 0), flyDuration, RotateMode.FastBeyond360).SetRelative().SetEase(Ease.OutQuad));
+                seq.Insert(startTime, box.tf.DORotate(new Vector3(0, 360, 0), flyDuration, RotateMode.FastBeyond360).SetRelative().SetEase(Ease.OutQuad));
 
                 // Tính thời điểm hộp bay đến đỉnh
                 float apexTime = startTime + flyDuration;
 
                 // 3. Đến đỉnh thì thu nhỏ dần biến mất
-                seq.Insert(apexTime, box.transform.DOScale(Vector3.zero, shrinkDuration).SetEase(Ease.InBack));
+                seq.Insert(apexTime, box.tf.DOScale(Vector3.zero, shrinkDuration).SetEase(Ease.InBack));
 
                 // 4. Cũng tại đỉnh, sinh ra hiệu ứng Effect
                 seq.InsertCallback(apexTime, () =>
                 {
                     Ply_SoundManager.Ins.PlayFx(FxType.DoneEffect); // Phát âm thanh chiến thắng
                     // Truyền vị trí hiện tại của box (lúc này đang ở trên không)
-                    SpawnEffect(box.transform.position); 
+                    SpawnEffect(box.tf.position); 
                 });
             }
 

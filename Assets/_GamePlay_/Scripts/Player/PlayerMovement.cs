@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
             if (box != null)
             {
                 // Kiểm tra phía sau box có khoảng trống để đẩy không
-                Vector3 boxOrigin = box.transform.position + Vector3.up * 0.5f;
+                Vector3 boxOrigin = box.tf.position + Vector3.up * 0.5f;
                 if (Physics.Raycast(boxOrigin, direction, gridSize, boxLayerMask | groundLayerMask))
                 {
                     return; // Vướng tường/hộp khác -> không đi được
@@ -70,9 +70,9 @@ public class PlayerMovement : MonoBehaviour
                             if (animator != null) animator.SetBool("isWalking", false);
                         });
                     });
-                    if (!TutorialController.Ins.isHintModeActive)
+                    if (!GameManager.Ins.IsHintModeActive)
                     {
-                        TutorialController.Ins.isHintMode = false;
+                        GameManager.Ins.IsHintMode = false;
                     }
                     return; 
                 }
@@ -80,10 +80,10 @@ public class PlayerMovement : MonoBehaviour
                 
 
                 CommandManager.Ins.AddCommand(new MoveCommand(playerTransform, box));
-                Vector3 targetBoxPos = box.transform.position + direction * gridSize;
+                Vector3 targetBoxPos = box.tf.position + direction * gridSize;
                 
                 // Kích hoạt DOTween cho cả Player và Box
-                PerformDOTweenMove(targetPos, box.transform, targetBoxPos);
+                PerformDOTweenMove(targetPos, box.tf, targetBoxPos);
             }
         }
         else
@@ -92,10 +92,10 @@ public class PlayerMovement : MonoBehaviour
             CommandManager.Ins.AddCommand(new MoveCommand(playerTransform));
             PerformDOTweenMove(targetPos, null, Vector3.zero);
         }
-        if (!TutorialController.Ins.isHintModeActive)
-        {
-            TutorialController.Ins.isHintMode = false;
-        }
+                    if (!GameManager.Ins.IsHintModeActive)
+                    {
+                        GameManager.Ins.IsHintMode = false;
+                    }
 
     }
 

@@ -16,8 +16,9 @@ public class TutorialController : Ply_Singleton<TutorialController>
 
     private List<StepData> moveSteps = new List<StepData>();
     private Coroutine playRoutine = null;
-    public bool isHintMode;
-    public bool isHintModeActive;
+    // Hint state moved to GameManager: use GameManager.Ins.IsHintMode / IsHintModeActive
+
+    [ReadOnly] public string currentSolution; // solution moved here from LevelGenerator
     
     [SerializeField] private int hintPushLimit = 0;
 
@@ -42,7 +43,7 @@ public class TutorialController : Ply_Singleton<TutorialController>
     {
         moveSteps.Clear();
         
-        string s = LevelGenerator.Ins != null ? LevelGenerator.Ins.currentSolution : null;
+        string s = !string.IsNullOrEmpty(currentSolution) ? currentSolution : null;
         if (string.IsNullOrEmpty(s)) return;
 
         foreach (char c in s)
@@ -75,7 +76,7 @@ public class TutorialController : Ply_Singleton<TutorialController>
     public void Play()
     {
         if (playRoutine != null) return;
-        if(isHintMode)
+        if(GameManager.Ins.IsHintMode)
         {
             playRoutine = StartCoroutine(PlayAllRoutine());
         }
@@ -84,14 +85,14 @@ public class TutorialController : Ply_Singleton<TutorialController>
             LevelGenerator.Ins.ReloadCurrentLevel();
             playRoutine = StartCoroutine(PlayAllRoutine());
         }
-        isHintMode = false;
+        GameManager.Ins.IsHintMode = false;
     }
 
     public void OnClickHintButton()
     {
         if (playRoutine != null) return; 
-        isHintMode = true;
-        isHintModeActive = true;
+        GameManager.Ins.IsHintMode = true;
+        GameManager.Ins.IsHintModeActive = true;
         playRoutine = StartCoroutine(HintRoutine());
     }
 
@@ -113,17 +114,17 @@ public class TutorialController : Ply_Singleton<TutorialController>
 
     private IEnumerator PlayAllRoutine()
     {
-        GameManager.Ins.isPlaying = false;
+        GameManager.Ins.SetState(GameManager.GameState.Solving);
         yield return Yielders.Get(fallWaitTime);
         // Chế độ giải hết: truyền -1 để không giới hạn số thùng đẩy
         yield return StartCoroutine(CorePlayRoutine(-1));
         playRoutine = null;
-        GameManager.Ins.isPlaying = true;
+        GameManager.Ins.SetState(GameManager.GameState.Playing);
     }
 
     private IEnumerator HintRoutine()
     {
-        GameManager.Ins.isPlaying = false;
+        GameManager.Ins.SetState(GameManager.GameState.Hinting);
         // 1. Tăng giới hạn đẩy thùng cho lần gợi ý này
         hintPushLimit++;
 
@@ -135,9 +136,9 @@ public class TutorialController : Ply_Singleton<TutorialController>
 
         // 4. Chạy các bước di chuyển đến khi đạt giới hạn
         yield return StartCoroutine(CorePlayRoutine(hintPushLimit));
-        isHintModeActive = false;
+        GameManager.Ins.IsHintModeActive = false;
         playRoutine = null;
-        GameManager.Ins.isPlaying = true;
+        GameManager.Ins.SetState(GameManager.GameState.Playing);
     }
 
     private IEnumerator CorePlayRoutine(int targetPushLimit)
@@ -164,7 +165,8 @@ public class TutorialController : Ply_Singleton<TutorialController>
 
     private IEnumerator ExecuteStep(Vector3 direction)
     {
-        var playerMove = InputManager.Ins.player.movement;
+        if (GameManager.Ins == null || GameManager.Ins.player == null) yield break;
+        var playerMove = GameManager.Ins.player.movement;
         if (playerMove == null) yield break;
 
         // Ra lệnh cho nhân vật di chuyển (Hàm này đã có sẵn logic CommandManager và DOTween)

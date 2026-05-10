@@ -7,12 +7,15 @@ public class InputManager : Ply_Singleton<InputManager>
     [Header("Push Settings")]
     public LayerMask boxLayerMask;
     public LayerMask groundLayerMask;
-
+    public override void Awake() 
+    {
+        player = GameManager.Ins.player;
+    }
 
     private void Update()
     {
-        if (!GameManager.Ins.isPlaying) return;
-        if (player == null || player.movement == null) return;
+        if (!GameManager.Ins.IsInputEnabled) return;
+        if (player == null) return;
 
         // Xử lý Input trên máy tính (Bàn phím)
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -28,22 +31,22 @@ public class InputManager : Ply_Singleton<InputManager>
     // CÁC HÀM NÀY DÙNG ĐỂ GẮN VÀO BUTTON TRÊN ĐIỆN THOẠI (UI)
     public void MoveUp()
     {
-        if (!GameManager.Ins.isPlaying) return;
+        if (!GameManager.Ins.IsInputEnabled) return;
         player.movement.AttemptMove(Vector3.forward);
     }
     public void MoveDown()
     {
-        if (!GameManager.Ins.isPlaying) return;
+        if (!GameManager.Ins.IsInputEnabled) return;
         player.movement.AttemptMove(Vector3.back);
     }
     public void MoveLeft()
     {
-        if (!GameManager.Ins.isPlaying) return;
+        if (!GameManager.Ins.IsInputEnabled) return;
         player.movement.AttemptMove(Vector3.left);
     }
     public void MoveRight()
     {
-        if (!GameManager.Ins.isPlaying) return;
+        if (!GameManager.Ins.IsInputEnabled) return;
         player.movement.AttemptMove(Vector3.right);
     }
 }

@@ -14,7 +14,7 @@ public class CommandManager : Ply_Singleton<CommandManager>
     public void AddCommand(ICommand command)
     {
         // Chặn không cho lưu nếu player đang lơ lửng di chuyển
-        if (InputManager.Ins != null && InputManager.Ins.player.movement.isMoving) return;
+        if (GameManager.Ins == null || GameManager.Ins.player == null || GameManager.Ins.player.movement.isMoving) return;
         
         commandHistory.Push(command);
     }
@@ -26,7 +26,7 @@ public class CommandManager : Ply_Singleton<CommandManager>
 
     public void Undo()
     {
-        if(!GameManager.Ins.isPlaying) return;
+        if(!GameManager.Ins.IsInputEnabled) return;
         if (!CanUndo())
         {
             Debug.LogWarning("CommandManager: Không có nước đi nào để Undo!");
@@ -34,13 +34,13 @@ public class CommandManager : Ply_Singleton<CommandManager>
         }
         Debug.Log($"CommandManager: Undo lệnh thứ {commandHistory.Count}");
         // Mở khóa input và tắt animation cho Player nếu lỡ bấm Undo lúc đang đi
-        if (InputManager.Ins != null && InputManager.Ins.player != null)
+        if (GameManager.Ins != null && GameManager.Ins.player != null)
         {
-            InputManager.Ins.player.movement.isMoving = false;
-            if (InputManager.Ins.player.movement.animator != null)
+            GameManager.Ins.player.movement.isMoving = false;
+            if (GameManager.Ins.player.movement.animator != null)
             {
-                InputManager.Ins.player.movement.animator.SetBool("isWalking", false);
-                InputManager.Ins.player.movement.animator.SetBool("isPushing", false);
+                GameManager.Ins.player.movement.animator.SetBool("isWalking", false);
+                GameManager.Ins.player.movement.animator.SetBool("isPushing", false);
             }
         }
 
