@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Sokoban.Presentation.UI;
 
 public class SettingMenuUI : MonoBehaviour
 {

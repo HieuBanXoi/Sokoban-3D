@@ -1,182 +1,176 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sokoban.Core.Patterns;
+using Sokoban.Entities;
+using Sokoban.Managers.States;
+using Unity.Collections;
 
-public class TutorialController : Ply_Singleton<TutorialController>
+namespace Sokoban.Managers
 {
-    [Header("Tutorial Settings")]
-    public float stepPause = 0.05f; 
-    public float fallWaitTime = 1f; // Thời gian chờ hộp rơi xong khi reset map
-
-    // Cấu trúc lưu trữ dữ liệu từng bước đi
-    private struct StepData {
-        public Vector3 dir;
-        public bool isPush;
-    }
-
-    private List<StepData> moveSteps = new List<StepData>();
-    private Coroutine playRoutine = null;
-    // Hint state moved to GameManager: use GameManager.Ins.IsHintMode / IsHintModeActive
-
-    [ReadOnly] public string currentSolution; // solution moved here from LevelGenerator
-    
-    [SerializeField] private int hintPushLimit = 0;
-
-    // QUAN TRỌNG: Index luôn lấy từ số lượng Command đã thực hiện để chống lệch nhịp khi Undo
-    private int CurrentStepIndex 
+    public class TutorialController : Ply_Singleton<TutorialController>
     {
-        get 
+        [Header("Tutorial Settings")]
+        public float stepPause = 0.05f; 
+        public float fallWaitTime = 1f;
+
+        private struct StepData 
         {
-            if (CommandManager.Ins != null) return CommandManager.Ins.CommandCount;
-            return 0;
+            public Vector3 dir;
+            public bool isPush;
         }
-    }
-    public override void Awake()
-    {
-        base.Awake();
-        fallWaitTime = 1f;
-    }
-    /// <summary>
-    /// Khởi tạo danh sách bước đi từ chuỗi Solution của Level
-    /// </summary>
-    public void StartTutorialFromCurrentSolution()
-    {
-        moveSteps.Clear();
-        
-        string s = !string.IsNullOrEmpty(currentSolution) ? currentSolution : null;
-        if (string.IsNullOrEmpty(s)) return;
 
-        foreach (char c in s)
+        private List<StepData> moveSteps = new List<StepData>();
+        private Coroutine playRoutine = null;
+        
+        // Đưa các biến quản lý Hint về đúng class của nó
+        public bool IsHintMode { get; set; } = false; 
+        public bool IsHintModeActive { get; set; } = false; 
+
+        [ReadOnly] public string currentSolution; 
+        
+        [SerializeField] private int hintPushLimit = 0;
+
+        private int CurrentStepIndex 
         {
-            Vector3 dir = CharToDir(c);
-            if (dir != Vector3.zero) 
+            get 
             {
-                // Chữ in hoa trong solution mặc định là bước đẩy thùng
-                moveSteps.Add(new StepData { dir = dir, isPush = char.IsUpper(c) });
+                if (CommandManager.Ins != null) return CommandManager.Ins.CommandCount;
+                return 0;
             }
         }
-        Pause();
-    }
 
-    private Vector3 CharToDir(char c)
-    {
-        char lower = char.ToLower(c);
-        switch (lower)
+        public override void Awake()
         {
-            case 'r': return Vector3.right;
-            case 'l': return Vector3.left;
-            case 'u': return Vector3.forward; 
-            case 'd': return Vector3.back;
-            default: return Vector3.zero;
+            base.Awake();
+            fallWaitTime = 1f;
         }
-    }
 
-    // --- CÁC HÀM ĐIỀU KHIỂN CHÍNH ---
-
-    public void Play()
-    {
-        if (playRoutine != null) return;
-        if(GameManager.Ins.IsHintMode)
+        public void StartTutorialFromCurrentSolution()
         {
-            playRoutine = StartCoroutine(PlayAllRoutine());
+            moveSteps.Clear();
+            
+            string s = !string.IsNullOrEmpty(currentSolution) ? currentSolution : null;
+            if (string.IsNullOrEmpty(s)) return;
+
+            foreach (char c in s)
+            {
+                Vector3 dir = CharToDir(c);
+                if (dir != Vector3.zero) 
+                {
+                    moveSteps.Add(new StepData { dir = dir, isPush = char.IsUpper(c) });
+                }
+            }
+            Pause();
         }
-        else
+
+        private Vector3 CharToDir(char c)
         {
-            LevelGenerator.Ins.ReloadCurrentLevel();
-            playRoutine = StartCoroutine(PlayAllRoutine());
+            char lower = char.ToLower(c);
+            switch (lower)
+            {
+                case 'r': return Vector3.right;
+                case 'l': return Vector3.left;
+                case 'u': return Vector3.forward; 
+                case 'd': return Vector3.back;
+                default: return Vector3.zero;
+            }
         }
-        GameManager.Ins.IsHintMode = false;
-    }
 
-    public void OnClickHintButton()
-    {
-        if (playRoutine != null) return; 
-        GameManager.Ins.IsHintMode = true;
-        GameManager.Ins.IsHintModeActive = true;
-        playRoutine = StartCoroutine(HintRoutine());
-    }
-
-    public void Pause()
-    {
-        if (playRoutine != null)
+        public void Play()
         {
-            StopCoroutine(playRoutine);
+            if (playRoutine != null) return;
+            if(IsHintMode)
+            {
+                playRoutine = StartCoroutine(PlayAllRoutine());
+            }
+            else
+            {
+                LevelGenerator.Ins.ReloadCurrentLevel();
+                playRoutine = StartCoroutine(PlayAllRoutine());
+            }
+            IsHintMode = false;
+        }
+
+        public void OnClickHintButton()
+        {
+            if (playRoutine != null) return; 
+            IsHintMode = true;
+            IsHintModeActive = true;
+            playRoutine = StartCoroutine(HintRoutine());
+        }
+
+        public void Pause()
+        {
+            if (playRoutine != null)
+            {
+                StopCoroutine(playRoutine);
+                playRoutine = null;
+            }
+        }
+
+        public void ResetHintLimit()
+        {
+            hintPushLimit = 0;
+        }
+
+        private IEnumerator PlayAllRoutine()
+        {
+            // Thay thế enum cũ bằng State Pattern
+            GameManager.Ins.SetState(new SolvingState());
+            yield return Yielders.Get(fallWaitTime);
+            
+            yield return StartCoroutine(CorePlayRoutine(-1));
             playRoutine = null;
+            
+            // Trả lại trạng thái Playing
+            GameManager.Ins.SetState(GameManager.Ins.playingState);
         }
-    }
 
-    public void ResetHintLimit()
-    {
-        hintPushLimit = 0;
-    }
-
-    // --- CÁC COROUTINE XỬ LÝ LOGIC ---
-
-    private IEnumerator PlayAllRoutine()
-    {
-        GameManager.Ins.SetState(GameManager.GameState.Solving);
-        yield return Yielders.Get(fallWaitTime);
-        // Chế độ giải hết: truyền -1 để không giới hạn số thùng đẩy
-        yield return StartCoroutine(CorePlayRoutine(-1));
-        playRoutine = null;
-        GameManager.Ins.SetState(GameManager.GameState.Playing);
-    }
-
-    private IEnumerator HintRoutine()
-    {
-        GameManager.Ins.SetState(GameManager.GameState.Hinting);
-        // 1. Tăng giới hạn đẩy thùng cho lần gợi ý này
-        hintPushLimit++;
-
-        // 2. Tải lại map để robot bắt đầu từ trạng thái sạch
-        LevelGenerator.Ins.ReloadCurrentLevel();
-
-        // 3. Chờ cho hộp rơi xuống và ổn định vị trí (Sử dụng Yielders tối ưu)
-        yield return Yielders.Get(fallWaitTime);
-
-        // 4. Chạy các bước di chuyển đến khi đạt giới hạn
-        yield return StartCoroutine(CorePlayRoutine(hintPushLimit));
-        GameManager.Ins.IsHintModeActive = false;
-        playRoutine = null;
-        GameManager.Ins.SetState(GameManager.GameState.Playing);
-    }
-
-    private IEnumerator CorePlayRoutine(int targetPushLimit)
-    {
-        int pushedBoxCount = 0;
-
-        // Vòng lặp chạy qua từng bước dựa trên vị trí hiện tại của Player
-        while (CurrentStepIndex < moveSteps.Count)
+        private IEnumerator HintRoutine()
         {
-            StepData currentStep = moveSteps[CurrentStepIndex];
-            if (currentStep.isPush) pushedBoxCount++;
+            GameManager.Ins.SetState(new HintingState());
+            hintPushLimit++;
 
-            // Thực hiện di chuyển và đợi đến khi hoàn tất
-            yield return StartCoroutine(ExecuteStep(currentStep.dir));
+            LevelGenerator.Ins.ReloadCurrentLevel();
+            yield return Yielders.Get(fallWaitTime);
 
-            // Kiểm tra điều kiện dừng của chế độ Gợi ý
-            if (targetPushLimit != -1 && pushedBoxCount >= targetPushLimit)
+            yield return StartCoroutine(CorePlayRoutine(hintPushLimit));
+            
+            IsHintModeActive = false;
+            playRoutine = null;
+            
+            GameManager.Ins.SetState(GameManager.Ins.playingState);
+        }
+
+        private IEnumerator CorePlayRoutine(int targetPushLimit)
+        {
+            int pushedBoxCount = 0;
+
+            while (CurrentStepIndex < moveSteps.Count)
             {
-                break;
+                StepData currentStep = moveSteps[CurrentStepIndex];
+                if (currentStep.isPush) pushedBoxCount++;
+
+                yield return StartCoroutine(ExecuteStep(currentStep.dir));
+
+                if (targetPushLimit != -1 && pushedBoxCount >= targetPushLimit)
+                {
+                    break;
+                }
             }
         }
 
+        private IEnumerator ExecuteStep(Vector3 direction)
+        {
+            if (GameManager.Ins == null || GameManager.Ins.player == null) yield break;
+            var playerMove = GameManager.Ins.player.movement;
+            if (playerMove == null) yield break;
+
+            playerMove.AttemptMove(direction);
+            
+            yield return new WaitWhile(() => playerMove.isMoving);
+            yield return Yielders.Get(stepPause);
+        }
     }
-
-    private IEnumerator ExecuteStep(Vector3 direction)
-    {
-        if (GameManager.Ins == null || GameManager.Ins.player == null) yield break;
-        var playerMove = GameManager.Ins.player.movement;
-        if (playerMove == null) yield break;
-
-        // Ra lệnh cho nhân vật di chuyển (Hàm này đã có sẵn logic CommandManager và DOTween)
-        playerMove.AttemptMove(direction);
-        
-        // Đợi cho đến khi nhân vật kết thúc mọi hoạt ảnh/di chuyển
-        yield return new WaitWhile(() => playerMove.isMoving);
-        
-        // Nghỉ một chút giữa các bước cho mượt
-        yield return Yielders.Get(stepPause);
-    }
-
 }

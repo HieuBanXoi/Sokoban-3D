@@ -1,15 +1,21 @@
 using UnityEngine;
+using Sokoban.Entities;
 
-public class PlayerGraphicController : MonoBehaviour
+namespace Sokoban.Presentation
 {
-    public PlayerMovement playerMovement;
-    private Transform _tf;
-    private void Awake()
+    public class PlayerGraphicController : MonoBehaviour
     {
-        _tf = transform;
-    }
-    public void ApplySkin()
-    {
-        playerMovement.animator = SkinManager.Ins.ApplyPlayerSkin(_tf);
+        public PlayerMovement playerMovement;
+        private Transform _tf;
+
+        private void Awake()
+        {
+            _tf = transform;
+        }
+
+        public void ApplySkin()
+        {
+            playerMovement.animator = SkinManager.Ins.ApplyPlayerSkin(_tf);
+        }
     }
 }

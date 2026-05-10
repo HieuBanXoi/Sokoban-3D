@@ -1,51 +1,48 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Sokoban.Core.Interfaces;
+using Sokoban.Managers;
 
-public class CommandManager : Ply_Singleton<CommandManager>
+namespace Sokoban.Core.Patterns
 {
-    // Dùng Stack (Vào sau ra trước) là cấu trúc dữ liệu chuẩn nhất cho Undo
-    private Stack<ICommand> commandHistory = new Stack<ICommand>();
-    public int CommandCount => commandHistory.Count;
-    public void Clear()
+    public class CommandManager : Ply_Singleton<CommandManager>
     {
-        commandHistory.Clear();
-    }
-
-    public void AddCommand(ICommand command)
-    {
-        // Chặn không cho lưu nếu player đang lơ lửng di chuyển
-        if (GameManager.Ins == null || GameManager.Ins.player == null || GameManager.Ins.player.movement.isMoving) return;
+        private Stack<ICommand> commandHistory = new Stack<ICommand>();
+        public int CommandCount => commandHistory.Count;
         
-        commandHistory.Push(command);
-    }
-
-    public bool CanUndo()
-    {
-        return commandHistory.Count > 0;
-    }
-
-    public void Undo()
-    {
-        if(!GameManager.Ins.IsInputEnabled) return;
-        if (!CanUndo())
+        public void Clear()
         {
-            Debug.LogWarning("CommandManager: Không có nước đi nào để Undo!");
-            return;
+            commandHistory.Clear();
         }
-        Debug.Log($"CommandManager: Undo lệnh thứ {commandHistory.Count}");
-        // Mở khóa input và tắt animation cho Player nếu lỡ bấm Undo lúc đang đi
-        if (GameManager.Ins != null && GameManager.Ins.player != null)
+
+        public void AddCommand(ICommand command)
         {
-            GameManager.Ins.player.movement.isMoving = false;
-            if (GameManager.Ins.player.movement.animator != null)
+            if (GameManager.Ins == null || GameManager.Ins.player == null || GameManager.Ins.player.movement.isMoving) return;
+            commandHistory.Push(command);
+        }
+
+        public bool CanUndo()
+        {
+            return commandHistory.Count > 0;
+        }
+
+        public void Undo()
+        {
+            if(!GameManager.Ins.IsInputEnabled) return;
+            if (!CanUndo()) return;
+            
+            if (GameManager.Ins != null && GameManager.Ins.player != null)
             {
-                GameManager.Ins.player.movement.animator.SetBool("isWalking", false);
-                GameManager.Ins.player.movement.animator.SetBool("isPushing", false);
+                GameManager.Ins.player.movement.isMoving = false;
+                if (GameManager.Ins.player.movement.animator != null)
+                {
+                    GameManager.Ins.player.movement.animator.SetBool("isWalking", false);
+                    GameManager.Ins.player.movement.animator.SetBool("isPushing", false);
+                }
             }
-        }
 
-        // Lấy lệnh gần nhất ra và hoàn tác
-        ICommand lastCommand = commandHistory.Pop();
-        lastCommand.Undo();
+            ICommand lastCommand = commandHistory.Pop();
+            lastCommand.Undo();
+        }
     }
 }

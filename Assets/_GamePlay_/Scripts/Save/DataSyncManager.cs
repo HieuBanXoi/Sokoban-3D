@@ -66,47 +66,29 @@ public class DataSyncManager : MonoBehaviour
     /// </summary>
     public async Task InitializeAndSync()
     {
-        if (gameDataSO == null)
-        {
-            Debug.LogError("[DataSync] Chưa gán GameDataSO!");
-            return;
-        }
+        if (gameDataSO == null) return;
 
-        // BƯỚC 1: KHỞI TẠO DỊCH VỤ TRƯỚC (BẮT BUỘC)
+        // BƯỚC 1: KHỞI TẠO UNITY SERVICES
         try
         {
             if (UnityServices.State == ServicesInitializationState.Uninitialized)
             {
                 await UnityServices.InitializeAsync();
-                Debug.Log("[DataSync] Unity Services đã khởi tạo xong.");
             }
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             Debug.LogWarning($"[DataSync] Lỗi khởi tạo Services: {ex.Message}");
         }
 
-        // BƯỚC 2: BÂY GIỜ MỚI AN TOÀN ĐỂ LẤY PLAYER ID
-        // Kiểm tra xem người chơi đã đăng nhập từ phiên trước chưa
+        // BƯỚC 2: TIẾN HÀNH ĐĂNG NHẬP (LẤY ID THẬT TRƯỚC TIÊN)
         string playerId = GuestId;
-        if (AuthenticationService.Instance != null && AuthenticationService.Instance.IsSignedIn)
-        {
-            playerId = AuthenticationService.Instance.PlayerId;
-        }
-
-        // BƯỚC 3: LOAD LOCAL (OFFLINE-FIRST)
-        // Dùng playerId vừa lấy được (có thể là GuestId hoặc ID tài khoản cũ)
-        GameData localData = LocalSaveSystem.LoadLocal(playerId);
-        gameDataSO.data = localData;
-
         bool signedIn = false;
 
-        // BƯỚC 4: THỰC HIỆN ĐĂNG NHẬP (NẾU CHƯA)
         try
         {
             if (!AuthenticationService.Instance.IsSignedIn)
             {
-                // SignInAnonymouslyAsync sẽ tự động dùng Session Token cũ nếu có
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
             }
 
@@ -114,23 +96,32 @@ public class DataSyncManager : MonoBehaviour
             if (signedIn)
             {
                 playerId = AuthenticationService.Instance.PlayerId;
+                // Lưu lại ID thật vào PlayerPrefs để phòng hờ lần sau mở game mà bị rớt mạng
+                PlayerPrefs.SetString("LastOfflinePlayerId", playerId);
+                PlayerPrefs.Save();
                 Debug.Log($"[DataSync] Đăng nhập thành công. PlayerId: {playerId}");
             }
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
-            Debug.LogWarning($"[DataSync] Lỗi đăng nhập ẩn danh: {ex.Message}");
+            Debug.LogWarning($"[DataSync] Lỗi đăng nhập (Có thể do rớt mạng): {ex.Message}");
+            // RỚT MẠNG: Kéo ID cũ từ PlayerPrefs ra để Load file Local
+            playerId = PlayerPrefs.GetString("LastOfflinePlayerId", GuestId);
             signedIn = false;
         }
 
-        // BƯỚC 5: ĐỒNG BỘ VỚI CLOUD (NẾU CÓ MẠNG)
+        // BƯỚC 3: BÂY GIỜ MỚI AN TOÀN ĐỂ LOAD LOCAL DỰA TRÊN ID
+        GameData localData = LocalSaveSystem.LoadLocal(playerId);
+        gameDataSO.data = localData;
+
+        // BƯỚC 4: ĐỒNG BỘ CLOUD (CHỈ KHI CÓ MẠNG VÀ ĐÃ SIGN IN)
         if (signedIn)
         {
             await SyncWithCloud(playerId);
         }
         else
         {
-            // Nếu hoàn toàn offline, vẫn lưu local để cập nhật timestamp
+            // Nếu đang offline hoàn toàn, cập nhật lại timestamp cho file Local hiện tại
             LocalSaveSystem.SaveLocal(playerId, gameDataSO.data);
         }
     }

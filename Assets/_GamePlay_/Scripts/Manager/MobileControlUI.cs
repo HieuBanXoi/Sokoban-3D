@@ -1,27 +1,30 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Sokoban.Managers; // Gọi đến InputManager
 
-public class MobileControlUI : MonoBehaviour
+namespace Sokoban.Presentation.UI
 {
-    [Header("Movement Buttons")]
-    public Button btnUp;
-    public Button btnDown;
-    public Button btnLeft;
-    public Button btnRight;
-
-    private void Start()
+    public class MobileControlUI : MonoBehaviour
     {
-        // Gán sự kiện Click cho từng nút dựa trên các hàm có sẵn trong InputManager
-        if (InputManager.Ins != null)
+        [Header("Movement Buttons")]
+        public Button btnUp;
+        public Button btnDown;
+        public Button btnLeft;
+        public Button btnRight;
+
+        private void Start()
         {
-            btnUp.onClick.AddListener(() => InputManager.Ins.MoveUp());
-            btnDown.onClick.AddListener(() => InputManager.Ins.MoveDown());
-            btnLeft.onClick.AddListener(() => InputManager.Ins.MoveLeft());
-            btnRight.onClick.AddListener(() => InputManager.Ins.MoveRight());
-        }
-        else
-        {
-            Debug.LogError("[MobileControlUI] Không tìm thấy InputManager trong Scene!");
+            if (InputManager.Ins != null)
+            {
+                btnUp.onClick.AddListener(() => InputManager.Ins.MoveUp());
+                btnDown.onClick.AddListener(() => InputManager.Ins.MoveDown());
+                btnLeft.onClick.AddListener(() => InputManager.Ins.MoveLeft());
+                btnRight.onClick.AddListener(() => InputManager.Ins.MoveRight());
+            }
+            else
+            {
+                Debug.LogError("[MobileControlUI] Không tìm thấy InputManager trong Scene!");
+            }
         }
     }
 }

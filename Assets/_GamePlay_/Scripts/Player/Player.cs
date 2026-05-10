@@ -1,15 +1,18 @@
 using UnityEngine;
+using Sokoban.Presentation;
 
-public class Player : Ply_GameUnit
+namespace Sokoban.Entities
 {
-    [Header("Reference")]
-    public PlayerGraphicController graphic;
-    public PlayerMovement movement;
-
-    public void Despawn()
+    public class Player : Ply_GameUnit
     {
-        movement.animator.SetBool("isCheering", false);
-        Ply_Pool.Ins.Despawn(PoolType.Player, this);
-    }
+        [Header("Reference")]
+        public PlayerGraphicController graphic;
+        public PlayerMovement movement;
 
+        public void Despawn()
+        {
+            movement.animator.SetBool("isCheering", false);
+            Ply_Pool.Ins.Despawn(PoolType.Player, this);
+        }
+    }
 }

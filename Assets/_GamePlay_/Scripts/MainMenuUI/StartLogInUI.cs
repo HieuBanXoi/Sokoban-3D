@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Services.Authentication; // Bắt buộc phải có để gọi ClearSessionToken
+using Unity.Services.Authentication;
+using Unity.Services.Core; // Bắt buộc phải có để gọi ClearSessionToken
 
 public class StartLogInUI : MonoBehaviour
 {
@@ -27,26 +28,31 @@ public class StartLogInUI : MonoBehaviour
 
     // --- NÚT 1: TIẾP TỤC VỚI TÀI KHOẢN CŨ ---
     public async void OnContinueClicked()
-    {
-        // BƯỚC KIỂM TRA LẦN ĐẦU VÀO GAME:
-        // Nếu trên thiết bị chưa lưu bất kỳ Token đăng nhập nào (kể cả Guest)
-        if (!AuthenticationService.Instance.SessionTokenExists)
-        {
-            Debug.Log("[Continue] Không tìm thấy dữ liệu cũ! Chuyển hướng sang tạo Khách Mới.");
-            OnStartAsNewAnonymousClicked(); // Chuyển thẳng sang luồng tạo mới
-            return; // Dừng luồng Continue tại đây
-        }
+{
+    SetButtonsInteractable(false); // Khóa nút ngay lập tức để tránh người chơi bấm đúp
+    MenuUIManager.Instance.ShowLoading(); 
 
-        // Nếu đã có Token cũ (từng chơi rồi), tiến hành Load dữ liệu như bình thường
-        SetButtonsInteractable(false);
-        MenuUIManager.Instance.ShowLoading(); 
-        
-        await DataSyncManager.Instance.InitializeAndSync(); 
-        
-        Debug.Log($"[Continue] Đã khôi phục tài khoản: {AuthenticationService.Instance.PlayerId}");
-        MenuUIManager.Instance.ShowDashboard();
-        SetButtonsInteractable(true);
+    // CHÈN THÊM ĐOẠN NÀY ĐỂ BẢO VỆ: Đảm bảo Services đã thức dậy trước khi Check Token
+    if (UnityServices.State == ServicesInitializationState.Uninitialized)
+    {
+        await UnityServices.InitializeAsync();
     }
+
+    // Sau đó mới check Token
+    if (!AuthenticationService.Instance.SessionTokenExists)
+    {
+        Debug.Log("[Continue] Không tìm thấy dữ liệu cũ! Chuyển hướng sang tạo Khách Mới.");
+        OnStartAsNewAnonymousClicked(); 
+        return; 
+    }
+
+    // Tiến hành Load dữ liệu
+    await DataSyncManager.Instance.InitializeAndSync(); 
+    
+    Debug.Log($"[Continue] Đã khôi phục tài khoản: {AuthenticationService.Instance.PlayerId}");
+    MenuUIManager.Instance.ShowDashboard();
+    SetButtonsInteractable(true);
+}
 
     // --- NÚT 2: TẠO TÀI KHOẢN ẨN DANH MỚI TINH ---
     public async void OnStartAsNewAnonymousClicked()

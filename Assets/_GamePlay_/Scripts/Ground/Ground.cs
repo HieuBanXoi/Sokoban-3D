@@ -1,58 +1,56 @@
 using UnityEngine;
+using Sokoban.Presentation;
 
-public class Ground : Ply_GameUnit
+namespace Sokoban.Entities
 {
-    [Header("Reference")]
-    public GroundGraphicController groundGraphic;
-
-    [Header("Type")]
-    public GroundType groundType;
-
-
-    public void SetGroundType(GroundType type)
+    public enum GroundType
     {
-        groundType = type;
-        UpdateGraphic();
+        Ground,
+        OnGround,
+        Goal,
+        Wall
     }
-    public void UpdateGraphic()
+
+    public class Ground : Ply_GameUnit
     {
-        if (groundGraphic == null)
+        [Header("Reference")]
+        public GroundGraphicController groundGraphic;
+
+        [Header("Type")]
+        public GroundType groundType;
+
+        public void SetGroundType(GroundType type)
         {
-            Debug.LogError("Ground: No GroundGraphicController assigned!");
-            return;
+            groundType = type;
+            UpdateGraphic();
         }
 
-        // Chọn mesh dựa trên loại ground
-        Mesh newMesh = null;
-        switch (groundType)
+        public void UpdateGraphic()
         {
-            case GroundType.Ground:
-                newMesh = SkinManager.Ins.currentMapMesh.groundMesh;
-                break;
-            case GroundType.OnGround:
-                newMesh = SkinManager.Ins.currentMapMesh.onGroundMesh;
-                break;
-            case GroundType.Goal:
-                newMesh = SkinManager.Ins.currentMapMesh.goalMesh;
-                break;
-            case GroundType.Wall:
-                newMesh = SkinManager.Ins.currentMapMesh.wallMesh;
-                break;
+            if (groundGraphic == null) return;
+
+            Mesh newMesh = null;
+            switch (groundType)
+            {
+                case GroundType.Ground:
+                    newMesh = SkinManager.Ins.currentMapMesh.groundMesh;
+                    break;
+                case GroundType.OnGround:
+                    newMesh = SkinManager.Ins.currentMapMesh.onGroundMesh;
+                    break;
+                case GroundType.Goal:
+                    newMesh = SkinManager.Ins.currentMapMesh.goalMesh;
+                    break;
+                case GroundType.Wall:
+                    newMesh = SkinManager.Ins.currentMapMesh.wallMesh;
+                    break;
+            }
+            groundGraphic.SetMesh(newMesh);
         }
 
-        groundGraphic.SetMesh(newMesh);
+        public void Despawn()
+        {
+            Ply_Pool.Ins.Despawn(PoolType.Ground, this);
+        }
     }
-
-    public void Despawn()
-    {
-        Ply_Pool.Ins.Despawn(PoolType.Ground, this);
-    }
-}
-
-public enum GroundType
-{
-    Ground,
-    OnGround,
-    Goal,
-    Wall
 }

@@ -127,6 +127,12 @@ MonoBehaviour:
   gridSize: 2
   moveDuration: 0.2
   isMoving: 0
+  boxLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &7348404900332141555
 GameObject:
   m_ObjectHideFlags: 0

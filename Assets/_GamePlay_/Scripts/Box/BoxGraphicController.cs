@@ -1,10 +1,14 @@
 using UnityEngine;
 
-public class BoxGraphicController : MonoBehaviour
+namespace Sokoban.Presentation
 {
-    public MeshRenderer meshRenderer;
-    public void SetMaterial(Material mat)
+    public class BoxGraphicController : MonoBehaviour
     {
-        meshRenderer.material = mat;
+        public MeshRenderer meshRenderer;
+        
+        public void SetMaterial(Material mat)
+        {
+            meshRenderer.material = mat;
+        }
     }
 }

@@ -1,18 +1,17 @@
 using UnityEngine;
 
-public class GroundGraphicController : MonoBehaviour
+namespace Sokoban.Presentation
 {
-    public MeshFilter meshFilter;
-
-    public void SetMesh(Mesh mesh)
+    public class GroundGraphicController : MonoBehaviour
     {
-        if (meshFilter != null)
+        public MeshFilter meshFilter;
+
+        public void SetMesh(Mesh mesh)
         {
-            meshFilter.mesh = mesh;
-        }
-        else
-        {
-            Debug.LogError("GroundGraphicController: No MeshFilter assigned!");
+            if (meshFilter != null)
+            {
+                meshFilter.mesh = mesh;
+            }
         }
     }
 }
